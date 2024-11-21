@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -40,13 +41,23 @@ public class BoardController {
     //게시글 작성완료
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/board/writepro")
-    public String boardWritePro(Board board, Model model, Principal principal) {
+    public String boardWritePro(Board board, Model model, Principal principal ,@RequestParam(value = "files", required = false) List<MultipartFile> files) {
         // 로그인한 사용자의 SiteUser 객체를 가져옴
         SiteUser siteUser = this.userService.getUser(principal.getName());
 
         board.setAuthor(siteUser);
         // 게시글을 저장
-        boardService.write(board);
+        try {
+            // 게시글 저장
+            boardService.write(board);
+            boardService.saveBoardImages(board, files);
+
+            System.out.println("보드컨트롤러 이미지저장");
+        } catch (Exception e) {
+            model.addAttribute("error", "파일 업로드 중 문제가 발생했습니다.");
+            System.out.println("보드서비스 이미지저장중 오류"+e.getMessage());
+            return "boardwrite"; // 에러 발생 시 글 작성 화면으로 돌아가기
+        }
 
         // 작성 완료 메시지와 리다이렉트 URL 설정
         model.addAttribute("message", "글 작성이 완료되었습니다.");
@@ -59,7 +70,9 @@ public class BoardController {
     @GetMapping("/board/view")
     public String boardView(Model model, @RequestParam("id") int id) {
         model.addAttribute("board", boardService.boardView(id));
+
         // localhost/board/view?id=1
+
         return "boardView"; // 뷰를 담당하는 템플릿 파일 이름 리턴에 써주면 된다..
     }
     //게시글 삭제

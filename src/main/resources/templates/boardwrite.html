@@ -15,7 +15,7 @@
     <div class="post-container layout">
         <h1>게시글 작성</h1>
         <hr class="title-underline">
-        <form action="/board/writepro" method="post">
+        <form action="/board/writepro" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="title">제목</label>
                 <input type="text" id="title" name="title" placeholder="제목 입력">
@@ -32,6 +32,10 @@
                     </div>
                     <textarea id="content" name="content" placeholder="내용 입력"></textarea>
                 </div>
+            </div>
+            <div class="form-image">
+                <input type="file" name="files" class="form-control" id="files" multiple>
+                <label for="files">이미지 업로드</label>
             </div>
             <hr class="title-underline">
             <div class="form-buttons">

@@ -35,5 +35,10 @@ public class Board {
 
     @ManyToMany
     Set<SiteUser> voter;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OrderBy("id asc")
+    private List<BoardImage> boardImages;
+
 }
 
