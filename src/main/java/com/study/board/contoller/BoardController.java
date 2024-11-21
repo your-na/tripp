@@ -1,5 +1,8 @@
 package com.study.board.contoller;
 import com.study.board.entity.Board;
+import com.study.board.entity.BoardImage;
+import com.study.board.repository.BoardImageRepository;
+import com.study.board.repository.BoardRepository;
 import com.study.board.service.BoardService;
 import com.study.board.user.SiteUser;
 import com.study.board.user.UserService;
@@ -21,6 +24,10 @@ public class BoardController {
     private BoardService boardService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private BoardRepository boardRepository;
+    @Autowired
+    private BoardImageRepository boardImageRepository;
 
     //게시글 리스트
     @GetMapping("/board/list")
@@ -70,9 +77,8 @@ public class BoardController {
     @GetMapping("/board/view")
     public String boardView(Model model, @RequestParam("id") int id) {
         model.addAttribute("board", boardService.boardView(id));
-
-        // localhost/board/view?id=1
-
+        List<BoardImage> images = boardImageRepository.findByBoardId(id);
+        model.addAttribute("images", images);
         return "boardView"; // 뷰를 담당하는 템플릿 파일 이름 리턴에 써주면 된다..
     }
     //게시글 삭제

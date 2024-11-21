@@ -28,11 +28,11 @@
         </div>
 
         <!--
-        TODO: 게시글 이미지 구현
-        게시글 이미지 아직 구현안함
-        <img src="/images/beach.png" alt="게시글 이미지" class="post-image">-->
+        게시글 이미지 구현중
+        <img src="/images/beach.png" alt="게시글 이미지" class="post-image">
+        -->
         <div class="images">
-            <div th:each="image : ${board.boardImages}">
+            <div th:each="image : ${images}">  <!-- ${images}로 수정 -->
                 <img th:src="@{${image.url}}" alt="게시글 이미지" class="post-image">
             </div>
         </div>

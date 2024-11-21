@@ -31,8 +31,11 @@ public class SecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()  // CSRF 보호 비활성화 (테스트 용도)
+
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+
+
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/user/login") // 사용자 정의 로그인 페이지
                         .defaultSuccessUrl("/user/main") // 로그인 성공 후 이동할 URL

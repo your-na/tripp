@@ -93,8 +93,6 @@ public class BoardService {
     private String uploadFolder;
 
     public void saveBoardImages(Board board, List<MultipartFile> files) throws IOException {
-
-
         for (MultipartFile file : files) {
             if (!file.isEmpty()) {
                 UUID uuid = UUID.randomUUID();
@@ -106,7 +104,7 @@ public class BoardService {
 
                 // BoardImage 엔티티 생성 후 DB에 저장
                 BoardImage image = new BoardImage();
-                image.setUrl("/boardImages/" + imageFileName); // 이미지 URL
+                image.setUrl("/boardImageUpload/" + imageFileName); // 이미지 URL
                 image.setBoard(board); // 게시글과 연결
                 boardImageRepository.save(image);
                 System.out.println("보드서비스 이미지저장");
