@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판 페이지</title>
+    <link rel="stylesheet" href="/css/recent.css">
+</head>
+<body>
+<!-- header -->
+<div th:insert="~{header :: header}">
+</div>
+
+    <div class="layout">
+        <div class="content-container">
+            <div class="content-header">
+                <h2>게시판 제목</h2>
+                <button class="create-post-button" onclick="location.href='/board/write'">새 글 작성</button>
+
+            </div>
+            <div class="post-list" th:each="board, loop : ${paging}">
+                <div class="post-item">
+                    <div class="post-content">
+                        <a th:href="@{/board/view(id=${board.id})}">
+                            <h3 th:text="${board.title}">게시글 제목</h3>
+                            <p th:text="${board.content}">게시글 내용</p>
+
+                            <div class="post-info">
+                                <!-- 조회수 미구현
+                                <span th:text="${board.viewCount}">조회수</span> |-->
+                                <span th:if="${board.date != null}" th:text="${#dates.format(board.date, 'yyyy-MM-dd')}">작성날짜</span> |
+                                <span th:if="${board.author != null}" th:text="${board.author.username}">닉네임</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="post-image">
+                        <img src="image.jpg" alt="게시글 이미지">
+                    </div>
+                </div>
+            </div>
+            <!-- 페이징처리 시작 -->
+            <div th:if="${!paging.isEmpty()}">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                        <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number-1}">
+                            <span>이전</span>
+                        </a>
+                    </li>
+                    <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+                        th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                        th:classappend="${page == paging.number} ? 'active'"
+                        class="page-item">
+                        <a th:text="${page}" class="page-link" href="javascript:void(0)" th:data-page="${page}"></a>
+                    </li>
+                    <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+                        <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number+1}">
+                            <span>다음</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <form th:action="@{/board/list}" method="get" id="searchForm">
+                <input type="hidden" id="kw" name="kw" th:value="${kw}">
+                <input type="hidden" id="page" name="page" th:value="${paging.number}">
+            </form>
+        </div>
+    </div>
+
+</body>
+<script type='text/javascript'>
+    const page_elements = document.getElementsByClassName("page-link");
+    Array.from(page_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            document.getElementById('page').value = this.dataset.page;
+            document.getElementById('searchForm').submit();
+        });
+    });
+    const btn_search = document.getElementById("btn_search");
+    btn_search.addEventListener('click', function() {
+        document.getElementById('kw').value = document.getElementById('search_kw').value;
+        document.getElementById('page').value = 0;  // 검색버튼을 클릭할 경우 0페이지부터 조회한다.
+        document.getElementById('searchForm').submit();
+    });
+</script>
+</html>

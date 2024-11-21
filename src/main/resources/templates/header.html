@@ -1,0 +1,67 @@
+<header>
+    <div class="header-container">
+        <div class="top-bar">
+            <div class="logo">
+                <a href="/user/main">
+                    <img src="/images/Logo.PNG" alt="logo">
+                </a>
+            </div>
+            <div class="search-bar-container">
+                <input type="text" id="search_kw" class="search-bar" placeholder="검색어 입력" th:value="${kw}">
+                <button class="btn btn-outline-secondary" type="button" id="btn_search">
+                    <span class="search-icon"><img src="/images/search.png" alt=""></span>
+                </button>
+
+            </div>
+            <div class="user-icons">
+                <div class="bell-icon"><a href="../알림/notification.html">
+                    <img src="/images/bell.png" alt="">
+                </a></div>
+                <div class="user-icon">
+                    <img src="/images/user.png" alt="">
+                    <ul>
+                        <li><a href="/user/edit">회원정보수정</a></li>
+                        <li><a href="../내가 쓴 게시글/내가 쓴 게시글.html">내가 쓴 게시글</a></li>
+                        <li><a href="../좋아요한 게시글/좋아요 한 게시글.html">좋아요 누른 게시글</a></li>
+                        <li><a href="../저장한 게시글/저장한 게시글.html">저장 한 게시글</a></li>
+                        <li><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+                            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <nav>
+            <ul class="main-menu">
+                <li class="menu-item">게시글
+                    <ul class="submenu">
+                        <li><a href="/board/list">HOT 게시글</a></li>
+                        <li><a href="/board/list">최신 게시글</a></li>
+                        <li><a href="/board/write">게시글 작성하기</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">1:1채팅
+                    <ul class="submenu">
+                        <li>1:1 채팅</li>
+                    </ul>
+                </li>
+                <li class="menu-item">랭킹
+                    <ul class="submenu">
+                        <li><a href="../조회수랭킹/rank.html">조회수</a></li>
+                        <li><a href="../유용한 정보 제공자/info.html">유용한 정보 제공자</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">자주 묻는 질문 (FAQ)
+                    <ul class="submenu">
+                        <li><a href="faq">자주 묻는 질문</a></li>
+                    </ul>
+                </li>
+                <li class="menu-item">지원&문의
+                    <ul class="submenu">
+                        <li>지원 요청</li>
+                        <li>고객센터</li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>

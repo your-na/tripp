@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 상세 페이지</title>
+    <link rel="stylesheet" href="/css/post.css"> <!-- 통합된 CSS 파일 링크 -->
+</head>
+<body>
+<!-- header -->
+<div th:insert="~{header :: header}">
+</div>
+
+<main>
+    <div class="post-container">
+        <div class="post-header">
+            <h1 class="post-title" th:text="${board.title}">게시글 제목</h1>
+            <div class="post-detail">
+                <img class="postdetail" src="/images/postdetail.png" alt="점 세 개" onclick="toggleDropdown()">
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a class="action-button" th:href="@{/board/delete(id=${board.id})}" sec:authorize="isAuthenticated()" th:if="${board.author != null and #authentication.getPrincipal().getUsername() == board.author.username}">
+                        글 삭제하기</a>
+                    <a class="action-button" th:href="@{/board/modify/{id}(id=${board.id})}" sec:authorize="isAuthenticated()" th:if="${board.author != null and #authentication.getPrincipal().getUsername() == board.author.username}">
+                        수정하기</a>
+                </div>
+            </div>
+
+        </div>
+
+        <!--
+        TODO: 게시글 이미지 구현
+        게시글 이미지 아직 구현안함
+        <img src="/images/beach.png" alt="게시글 이미지" class="post-image">-->
+        <div class="post-info">
+            <span th:if="${board.author != null}" th:text="${board.author.username}"></span> |
+            <span th:text="${#dates.format(board.date, 'yyyy-MM-dd')}">2024-01-01</span>
+        </div>
+        <div class="post-content">
+            <pre th:utext="${board.content}"></pre>
+        </div>
+        <div class="post-info">
+            <div>
+                <img src="/images/comment.png" alt="댓글 아이콘">
+                <span th:text="|${#lists.size(board.commentList)}|">댓글수</span>
+            </div>
+            <div>
+                <a href="#" class="recommend btn" th:href="@{|/vote/${board.id}|}">
+                    <img src="/images/heart.png" alt="하트 아이콘">
+                </a>
+                <span class="badge rounded-pill bg-success" th:text="${#lists.size(board.voter)}"></span>
+            </div>
+            <div>
+                <img src="/images/bookmark.png" alt="저장 아이콘">
+                <span>저장된 수</span>
+            </div>
+        </div>
+    </div>
+    <div class="comment-list">
+        <div class="comment-header" th:each="comment : ${board.commentList}" >
+
+            <!-- 작성자 이미지 미구현
+            <img src="../profile.png" alt="작성자1 사진" class="comment-author-img">-->
+            <div class="comment-details">
+                <div class="comment-author" th:if="${comment.author != null}" th:text="${comment.author.username}">작성자1</div>
+                <div class="comment-text">
+                    <p  th:text="${comment.content}">이것은 댓글입니다. 댓글의 내용이 여기에 표시됩니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form class="comment-form" th:action="@{|/comment/create/${board.id}|}" method="POST">
+        <textarea name="content" placeholder="댓글을 작성하세요..." rows="4"></textarea>
+        <button type="submit" >댓글 작성</button>
+    </form>
+</main>
+</body>
+</html>
+<script>
+    // 드롭다운 토글 기능
+function toggleDropdown() {
+    var dropdown = document.getElementById("dropdownMenu");
+    if (dropdown.style.display === "none" || dropdown.style.display === "") {
+        dropdown.style.display = "block";
+    } else {
+        dropdown.style.display = "none";
+    }
+}
+
+// 페이지 로드 시 기본적으로 드롭다운을 숨기기
+document.addEventListener("DOMContentLoaded", function() {
+    var dropdown = document.getElementById("dropdownMenu");
+    dropdown.style.display = "none"; // 기본적으로 숨기기
+});
+</script>

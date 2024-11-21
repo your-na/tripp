@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>User Profile</title>
+</head>
+<body>
+<h1>Profile of <span th:text="${user.name}"></span></h1>
+<p>Phone: <span th:text="${user.phone}"></span></p>
+<p>Email: <span th:text="${user.email}"></span></p>
+<!-- 기타 사용자 정보들 -->
+</body>
+</html>

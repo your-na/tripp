@@ -1,0 +1,322 @@
+/* 전체 스타일 초기화 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #333;
+}
+
+/* 헤더 스타일 */
+.header-container {
+    background-color: #d7e3f4;
+    padding: 10px 20px;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 80px; /* 로고의 너비를 설정 */
+    height: auto; /* 로고의 높이를 자동으로 설정 */
+}
+
+.logo img {
+    width: 150px; /* 로고 이미지의 너비를 로고 컨테이너의 너비에 맞춤 */
+    height: auto; /* 로고 이미지의 높이를 자동으로 설정 */
+}
+
+.search-bar-container {
+    position: relative;
+    flex-grow: 1;
+    max-width: 800px;
+    margin: 0 20px;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 18px;
+    border: 1px solid #ccc;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    background-color: #cccccc;
+    border-radius: 50%;
+}
+
+.search-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.bell-icon,
+.user-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #cccccc00;
+    border-radius: 50%;
+}
+
+.bell-icon img,
+.user-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 기존 스타일 수정 및 추가 */
+.user-icon {
+    position: relative; /* 드롭다운 리스트가 아이콘 아래에 표시되도록 설정 */
+}
+
+.user-icon ul {
+    position: absolute; /* 리스트를 상위 요소에 상대적으로 배치 */
+    top: 100%; /* 아이콘 바로 아래에 표시 */
+    right: 0; /* 우측 정렬하여 페이지 밖으로 넘어가지 않음 */
+    background-color: white;
+    padding: 5px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    display: none; /* 기본적으로 숨김 */
+    z-index: 50; /* z-index 값을 높게 설정하여 menu 위에 표시 */
+}
+
+/* hover 시 드롭다운 표시 */
+.user-icon:hover ul {
+    display: block; /* 호버 시 리스트 표시 */
+}
+
+.user-icon li {
+    padding: 5px 20px;
+    white-space: nowrap; /* 줄바꿈 방지 */
+}
+
+.user-icon li:hover {
+    font-weight: bold;
+    background-color: #f0f8ff;
+}
+
+nav {
+    margin-top: 10px;
+    text-align: center;
+    position: relative;
+    z-index: 10; /* 세부 항목들이 배너보다 위에 오도록 설정 */
+}
+
+.main-menu {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    background-color: #d7e3f4;
+}
+
+.menu-item {
+    position: relative;
+}
+
+/* 링크 스타일 초기화 */
+a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모 요소의 색상 상속 */
+}
+
+.menu-item a {
+    color: #333; /* 링크 색상 설정 */
+}
+
+.menu-item a:hover {
+    color: #000000; /* 호버 시 링크 색상 변경 */
+}
+
+.menu-item:hover .submenu {
+    display: block;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    list-style: none;
+    padding: 10px 0;
+    z-index: 20; /* 드롭다운 메뉴가 배너 위로 오도록 설정 */
+}
+
+.submenu li {
+    padding: 5px 20px;
+    white-space: nowrap;
+}
+
+.submenu li:hover {
+    font-weight: bold;
+    background-color: #f0f8ff;
+}
+
+/* Carousel Section */
+.carousel {
+    position: relative;
+    width: 90%;
+    margin: 20px auto;
+    overflow: hidden;
+    border-radius: 10px;
+    z-index: 1; /* 배너의 z-index를 낮게 설정하여 드롭다운 메뉴가 배너 위로 오도록 함 */
+}
+
+.carousel img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carousel-content {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+    min-width: 100%;
+    background-color: #eee;
+    text-align: center;
+    line-height: 200px;
+}
+
+/* Carousel Controls */
+.carousel-controls {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.prev-btn, .next-btn {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+/* Carousel Dots */
+.carousel-dots {
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+}
+
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #333;
+}
+
+/* HOT 게시글 Section */
+.hot-posts {
+    width: 80%;
+    margin: 40px auto;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-title h2 {
+    font-size: 24px;
+    color: #d16b6b;
+}
+
+.see-more {
+    font-size: 14px;
+    color: #666;
+    text-decoration: none;
+}
+
+.posts-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-card {
+    width: 23%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+}
+
+.post-card img {
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 15px;
+}
+
+.post-content {
+    text-align: left;
+}
+
+.nickname {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.date {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.description {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.post-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #999;
+}

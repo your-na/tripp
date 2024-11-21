@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+    <div class="login-container">
+        <h1>LOGIN</h1>
+        <form th:action="@{/user/login}" method="post">
+            <div     th:if="${param.error}">
+                <div class="alert alert-danger">
+                    사용자ID 또는 비밀번호를 확인해 주세요.
+                </div>
+            </div>
+
+            <div class="input-container">
+                <input type="text" name="username"  id="username" placeholder="아이디" required>
+            </div>
+            <div class="input-container">
+                <input type="password" name="password" id="password" placeholder="비밀번호" required>
+            </div>
+            <button type="submit">로그인</button>
+            <a href="/user/signup">회원가입</a>
+        </form>
+    </div>
+
+</body>
+</html>

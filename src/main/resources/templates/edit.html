@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Page</title>
+    <link rel="stylesheet" href="/css/edit.css">
+</head>
+<body>
+<!-- header -->
+<div th:insert="~{header :: header}"></div>
+
+<main>
+    <div class="form-container">
+        <form action="/user/edit" method="post">
+
+            <div class="profile-pic">
+                <img src="/images/profile.png" alt="Profile Image" id="profileImage">
+                <input type="file" id="fileInput" style="display: none;" accept="image/*">
+                <label for="fileInput">
+                    <i class="edit-icon">✏️</i>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="nickname">닉네임</label>
+                <input type="text" id="nickname" name="nickname" th:value="${user.nickname}" placeholder="닉네임 입력">
+            </div>
+
+            <div class="form-group">
+                <label for="intro">소개</label>
+                <input type="text" name="intro" th:value="${user.intro}" placeholder="소개 입력">
+            </div>
+
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input type="text" id="name" name="name" th:value="${user.name}" placeholder="이름 입력">
+            </div>
+
+            <div class="form-group birthdate-group">
+                <label for="birthdate">생년월일</label>
+                <div class="birthdate-selects">
+                    <!-- 연도 -->
+                    <select id="year" name="year">
+                        <option th:each="y : ${#numbers.sequence(1900, 2024)}"
+                                th:value="${y}"
+                                th:text="${y}"
+                                th:selected="${y == #temporals.format(user.birthdate, 'yyyy')}"></option>
+                    </select>
+                    <!-- 월 -->
+                    <select id="month" name="month">
+                        <option th:each="m : ${#numbers.sequence(1, 12)}"
+                                th:value="${m}"
+                                th:text="${m}"
+                                th:selected="${m == #temporals.format(user.birthdate, 'MM')}"></option>
+                    </select>
+                    <!-- 일 -->
+                    <select id="day" name="day">
+                        <option th:each="d : ${#numbers.sequence(1, 31)}"
+                                th:value="${d}"
+                                th:text="${d}"
+                                th:selected="${d == #temporals.format(user.birthdate, 'dd')}"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">성별</label>
+                <select id="gender" name="gender" th:value="${user.gender}">
+                    <option value="Male" th:selected="${user.gender == 'Male'}">Male</option>
+                    <option value="Female" th:selected="${user.gender == 'Female'}">Female</option>
+                </select>
+            </div>
+
+            <button type="submit">저장</button>
+        </form>
+    </div>
+    <button type="button" class="delete-button" onclick="deleteAccount()">탈퇴</button>
+</main>
+
+<script>
+    function deleteAccount() {
+        if (confirm("정말 탈퇴하시겠습니까?")) {
+            fetch("/user/delete", { method: "DELETE" })
+                .then(response => {
+                    if (response.ok) {
+                        alert("탈퇴가 완료되었습니다.");
+                        window.location.href = "/user/signup";  // 탈퇴 후 자동으로 회원가입 페이지로 이동
+                    } else {
+                        alert("탈퇴 중 문제가 발생했습니다.");
+                    }
+                });
+        }
+    }
+
+    // 파일 선택 후 미리보기
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // 선택한 이미지 파일을 프로필 이미지에 설정
+                document.getElementById('profileImage').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+</body>
+</html>

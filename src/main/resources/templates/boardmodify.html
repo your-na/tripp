@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시글 작성</title>
+  <link rel="stylesheet" href="/css/write.css">
+</head>
+<body>
+<!-- header -->
+<div th:insert="~{header :: header}">
+</div>
+
+
+<main>
+  <div class="post-container layout">
+    <h1>게시글 수정</h1>
+    <hr class="title-underline">
+    <form th:action="@{/board/update/{id}(id=${board.id})}"method="post">
+      <div class="form-group">
+        <label for="title">제목</label>
+        <input id= title name="title" type = "text" th:value="${board.title}">
+      </div>
+      <div class="form-group">
+        <label for="content">내용</label>
+        <div class="textarea-container">
+          <div class="editor-header">
+            <div class="icons">
+              <span class="image-icon"></span>
+              <span class="video-icon"></span>
+              <span class="attachment-icon"></span>
+            </div>
+          </div>
+          <textarea id="content" name="content" th:text="${board.content}"></textarea>
+        </div>
+      </div>
+      <hr class="title-underline">
+      <div class="form-buttons">
+        <button type="button" class="cancel-button" onclick="history.back();">취소</button>
+        <button type="submit" class="submit-button">수정</button>
+      </div>
+    </form>
+  </div>
+</main>
+</body>
+</html>
