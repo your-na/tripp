@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>점수 랭킹</title>
+  <link rel="stylesheet" href="/css/rank.css">
+</head>
+<body>
+<div th:insert="~{header :: header}"/>
+<section class="ranking-container">
+  <h2>점수 랭킹</h2>
+  <ul class="ranking-list">
+    <th:block th:each="board, iterStat : ${scoreRanking}">
+      <!-- 하나의 랭킹 카드 -->
+      <li class="ranking-item">
+        <div class="rank-number">
+          <!-- 순위 표시 -->
+          <span class="rank" th:text="${iterStat.index + 1}"></span>
+        </div>
+        <div class="ranking-details">
+          <!-- 게시글 제목과 상세 정보 -->
+          <a th:href="@{/board/view(id=${board.id})}">
+            <p class="rank-title" th:text="${board.title}">게시글 제목</p>
+          </a>
+          <p class="rank-meta">
+            <span class="heart-icon">♥ <span th:text="${#lists.size(board.voter)}">0</span></span>
+            <span th:text="${#dates.format(board.date, 'HH:mm')}">00:00</span> |
+            <span th:text="${board.author.username}">작성자</span>
+          </p>
+        </div>
+        <div class="rank-image">
+          <!-- 이미지가 있을 때만 표시 -->
+          <div class="rank-image" th:if="${board.boardImages.size() > 0}">
+            <img th:src="${board.boardImages[0].url}" alt="랭킹 이미지">
+          </div>
+        </div>
+      </li>
+    </th:block>
+  </ul>
+</section>
+</body>
+</html>

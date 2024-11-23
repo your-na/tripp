@@ -117,5 +117,24 @@ public class BoardController {
         this.boardService.vote(question, siteUser);
         return String.format("redirect:/board/view?id=%d", id);
     }
+    // 댓글 수 랭킹 페이지
+    @GetMapping("/ranking/comments")
+    public String getCommentRanking(Model model) {
+        model.addAttribute("commentRanking", boardService.getTopRankedByComments());
+        return "ranking_comments"; // ranking_comments.html로 이동
+    }
 
+    // 좋아요 수 랭킹 페이지
+    @GetMapping("/ranking/likes")
+    public String getLikeRanking(Model model) {
+        model.addAttribute("likeRanking", boardService.getTopRankedByLikes());
+        return "ranking_likes"; // ranking_likes.html로 이동
+    }
+
+    // 혼합 점수 랭킹 페이지
+    @GetMapping("/ranking/score")
+    public String getScoreRanking(Model model) {
+        model.addAttribute("scoreRanking", boardService.getTopRankedByScore());
+        return "ranking_score"; // ranking_score.html로 이동
+    }
 }

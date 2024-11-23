@@ -111,4 +111,19 @@ public class BoardService {
             }
         }
     }
+
+    // 댓글 수 기준 랭킹
+    public List<Board> getTopRankedByComments() {
+        return boardRepository.findTop10ByCommentCount();
+    }
+
+    // 좋아요 수 기준 랭킹
+    public List<Board> getTopRankedByLikes() {
+        return boardRepository.findTop10ByVoterCount();
+    }
+
+    // 혼합 점수 기준 랭킹
+    public List<Board> getTopRankedByScore() {
+        return boardRepository.findTop10ByRankingScore();
+    }
 }
