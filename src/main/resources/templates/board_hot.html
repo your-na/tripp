@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>점수 랭킹</title>
+  <title>핫 게시글</title>
   <link rel="stylesheet" href="/css/rank.css">
 </head>
 <body>
 <div th:insert="~{header :: header}"/>
 <section class="ranking-container">
-  <h2>점수 랭킹</h2>
+  <h2>핫 게시글</h2>
   <ul class="ranking-list">
     <th:block th:each="board, iterStat : ${scoreRanking}">
       <!-- 하나의 랭킹 카드 -->

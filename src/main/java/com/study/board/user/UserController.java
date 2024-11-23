@@ -77,16 +77,9 @@ public class UserController {
     }
 
 
-    @GetMapping("/main")
-    public String mainPage(Model model) {
-        // 게시글 목록 추가 시 여기에 로직 추가 가능
-        return "/main";
-    }
 
-    @GetMapping("/faq")
-    public String faq() {
-        return "faq";
-    }
+
+
 
     @GetMapping("/edit")
     public String editUser(Model model, @AuthenticationPrincipal UserDetails userDetails) {

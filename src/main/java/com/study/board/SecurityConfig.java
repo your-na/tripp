@@ -38,12 +38,12 @@ public class SecurityConfig {
 
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/user/login") // 사용자 정의 로그인 페이지
-                        .defaultSuccessUrl("/user/main") // 로그인 성공 후 이동할 URL
+                        .defaultSuccessUrl("/main") // 로그인 성공 후 이동할 URL
                         .successHandler((request, response, authentication) -> {
                             HttpSession session = request.getSession();
                             // Authentication에서 사용자 이름을 가져와 직접 저장
                             session.setAttribute("loggedInUser", authentication.getName());
-                            response.sendRedirect("/user/main");
+                            response.sendRedirect("/main");
                         })
                 )
                 .logout((logout) -> logout

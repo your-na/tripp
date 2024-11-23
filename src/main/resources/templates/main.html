@@ -33,25 +33,34 @@
 <section class="hot-posts">
     <div class="section-title">
         <h2>HOT 게시글</h2>
-        <a href="/board/list" class="see-more">더보기</a>
+        <a href="/board/hot" class="see-more">더보기</a>
     </div>
     <div class="posts-container">
-        <!-- HOT 게시글 목록을 동적으로 표시 -->
-        <!--<div th:each="post : ${hotPosts}" class="post-card">
-            <a href="/board/{post.id}">
-                <img th:src="@{'/images/' + ${post.imagePath}}" alt="게시글 이미지">
+        <div th:each="board : ${scoreRanking}" class="post-card">
+            <a th:href="@{/board/view(id=${board.id})}">
+                <!-- 게시글 이미지가 있을 경우 출력 -->
+                <img th:if="${board.boardImages.size() > 0}"
+                     th:src="${board.boardImages[0].url}"
+                     alt="게시글 이미지">
+
+                <!-- 이미지가 없을 경우 기본 이미지 출력 -->
+                <img th:if="${board.boardImages.size() == 0}"
+                     src="/images/default.PNG"
+                     alt="기본 이미지">
+
                 <div class="post-content">
-                    <p class="nickname" th:text="${post.nickname}"></p>
-                    <p class="date" th:text="${post.date}"></p>
-                    <p class="description" th:text="${post.content}"></p>
-                    <div class="post-meta">
-                        <span th:text="'조회수 ' + ${post.viewCount}"></span>
-                        <span th:text="'♥ ' + ${post.likeCount}"></span>
-                    </div>
+                    <!-- 닉네임 -->
+                    <p class="nickname" th:text="${board.author.username}">닉네임</p>
+                    <!-- 날짜 -->
+                    <p class="date" th:text="${#dates.format(board.date, 'yyyy-MM-dd HH:mm')}">2024-11-23 14:00</p>
+                    <!-- 게시글 제목 -->
+                    <p class="description" th:text="${board.title}">게시글 제목</p>
                 </div>
             </a>
-        </div> -->
+        </div>
     </div>
+
+
 </section>
 
 

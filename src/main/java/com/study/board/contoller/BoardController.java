@@ -18,6 +18,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.security.Principal;
+import java.util.stream.Collectors;
+
 @Controller
 public class BoardController {
     @Autowired
@@ -29,6 +31,20 @@ public class BoardController {
     @Autowired
     private BoardImageRepository boardImageRepository;
 
+    @GetMapping("/main")
+    public String mainPage(Model model) {
+        // 1. 전체 scoreRanking 리스트 가져오기
+        List<Board> scoreRanking = boardService.getTopRankedByScore();
+        // 2. 최대 4개까지만 가져오기
+        List<Board> limitedScoreRanking = scoreRanking.stream()
+                .limit(4)  // 최대 4개 항목으로 제한
+                .collect(Collectors.toList());
+        // 3. 모델에 제한된 리스트 추가
+        model.addAttribute("scoreRanking", limitedScoreRanking);
+        return "/main";
+    }
+
+
     //게시글 리스트
     @GetMapping("/board/list")
     public String list(Model model, @RequestParam(value="page", defaultValue="0") int page,@RequestParam(value="kw", defaultValue="") String kw) {
@@ -36,6 +52,11 @@ public class BoardController {
         model.addAttribute("paging", paging);
         model.addAttribute("kw", kw);
         return "boardList";
+    }
+
+    @GetMapping("/board/faq")
+    public String faq() {
+        return "faq";
     }
 
     //게시글작성
@@ -132,9 +153,8 @@ public class BoardController {
     }
 
     // 혼합 점수 랭킹 페이지
-    @GetMapping("/ranking/score")
+    @GetMapping("/board/hot")
     public String getScoreRanking(Model model) {
         model.addAttribute("scoreRanking", boardService.getTopRankedByScore());
-        return "ranking_score"; // ranking_score.html로 이동
-    }
+        return "board_hot"; }
 }
