@@ -1,16 +1,19 @@
 package com.study.board.user;
 
+import com.study.board.entity.BoardImage;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @Entity
+@Table(name = "site_user")
 public class SiteUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,8 +42,8 @@ public class SiteUser {
     @Column(nullable = false)
     private String address;
 
-    @Lob // Large object storage for profile images
-    private byte[] profileImage;
+    @OneToOne(mappedBy = "siteUser", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private UserImage userImage;
 
     public SiteUser() {
     }
@@ -62,6 +65,4 @@ public class SiteUser {
                 .address(userCreateForm.getAddress())
                 .build();
     }
-
-
 }

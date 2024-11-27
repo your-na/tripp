@@ -88,9 +88,6 @@ public class UserController {
         }
 
         SiteUser user = userService.getCurrentUser(userDetails.getUsername());
-        if (user == null) {
-            throw new IllegalArgumentException("유효하지 않은 사용자입니다.");
-        }
 
         model.addAttribute("user", user);
         model.addAttribute("intro", Optional.ofNullable(user.getIntro()).orElse("자기소개를 입력하세요."));
@@ -100,7 +97,7 @@ public class UserController {
     }
 
     @PostMapping("/edit")
-    public String edit(@Valid UserCreateForm userCreateForm, BindingResult bindingResult, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    public String edit(@Valid UserEditForm userEditForm, BindingResult bindingResult, Model model, @AuthenticationPrincipal UserDetails userDetails) {
         if (bindingResult.hasErrors()) {
             return "edit";
         }
@@ -110,7 +107,7 @@ public class UserController {
             SiteUser siteUser = userService.getUser(username);
 
             // 생년월일 파싱
-            LocalDate birthdate = userCreateForm.getBirthdateAsLocalDate();  // getBirthdateAsLocalDate() 호출
+            LocalDate birthdate = userEditForm.getBirthdateAsLocalDate();  // getBirthdateAsLocalDate() 호출
 
             if (birthdate == null) {
                 bindingResult.rejectValue("birthdate", "error.birthdate", "올바른 생년월일 형식을 입력해주세요.");
@@ -119,10 +116,10 @@ public class UserController {
 
             // 사용자 정보 업데이트
             siteUser.setBirthdate(birthdate);
-            siteUser.setNickname(userCreateForm.getNickname());
-            siteUser.setPhone(userCreateForm.getPhone());
-            siteUser.setName(userCreateForm.getName());
-            siteUser.setAddress(userCreateForm.getAddress());
+            siteUser.setNickname(userEditForm.getNickname());
+            siteUser.setPhone(userEditForm.getPhone());
+            siteUser.setName(userEditForm.getName());
+            siteUser.setAddress(userEditForm.getAddress());
             userService.updateUser(siteUser);
 
             model.addAttribute("message", "회원정보가 업데이트되었습니다.");
@@ -136,21 +133,6 @@ public class UserController {
     }
 
 
-    @PostMapping("/uploadProfile")
-    public String uploadProfileImage(@RequestParam("profileImage") MultipartFile file,
-                                     @AuthenticationPrincipal UserDetails userDetails, Model model) {
-        if (!file.isEmpty()) {
-            String username = userDetails.getUsername();
-            try {
-                byte[] imageBytes = file.getBytes();
-                userService.updateProfileImage(username, imageBytes);
-                model.addAttribute("message", "프로필 이미지가 성공적으로 업로드되었습니다.");
-            } catch (IOException e) {
-                model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다.");
-            }
-        }
-        return "redirect:/user/edit";
-    }
 
     //이거슨 탈퇴
     //@DeleteMapping("/delete")
@@ -164,14 +146,4 @@ public class UserController {
          //   return "redirect:/user/edit";
      //   }
     //}
-
-    @GetMapping("/profileImage/{username}")
-    @ResponseBody
-    public byte[] getProfileImage(@PathVariable String username) {
-        SiteUser user = userService.getUser(username);
-        if (user.getProfileImage() == null) {
-            throw new IllegalArgumentException("프로필 이미지가 없습니다.");
-        }
-        return user.getProfileImage();
-    }
 }
