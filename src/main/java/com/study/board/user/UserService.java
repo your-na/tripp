@@ -61,19 +61,4 @@ public class UserService {
         }
         return user.orElse(null);
     }
-
-    // 프로필 이미지 업데이트
-    public void updateProfileImage(String username, byte[] imageBytes) {
-        SiteUser user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
-
-        // 이미지 데이터를 엔티티에 저장
-        user.setProfileImage(imageBytes);
-
-        // 저장
-        userRepository.save(user);
-    }
-
-    // 기존에 저장된 이미지가 있다면 삭제 (필요시)
-        // userProfileRepository.deleteByUsername(username); // 이전 이미지를 삭제할 경우 이 부분 활성화
     }

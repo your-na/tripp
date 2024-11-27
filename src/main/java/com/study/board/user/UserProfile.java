@@ -1,41 +1,31 @@
 package com.study.board.user;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.study.board.entity.Board;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+
+@Getter
+@Setter
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "user_profile") // 테이블 이름 매핑
 public class UserProfile {
 
     @Id
-    private String username; // Primary Key로 설정
-    private String profileImage;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    // 생성자
-    public UserProfile(String username, String profileImage) {
-        this.username = username;
-        this.profileImage = profileImage;
-    }
+    @Column(nullable = false)
+    private String url;
 
-    public UserProfile() {
-    }
+    @OneToOne
+    @JoinColumn(name = "site_user_id")
+    private SiteUser siteUser;
 
-    // Getter와 Setter
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
 }
 

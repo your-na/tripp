@@ -1,10 +1,12 @@
 package com.study.board.user;
 
+import com.study.board.entity.BoardImage;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -45,6 +47,7 @@ public class SiteUser {
     public SiteUser() {
     }
 
+
     public static SiteUser from(UserCreateForm userCreateForm, PasswordEncoder passwordEncoder) {
         LocalDate birthdate = userCreateForm.getBirthdateAsLocalDate();
         if (birthdate == null) {
@@ -63,5 +66,7 @@ public class SiteUser {
                 .build();
     }
 
+    @OneToOne(mappedBy = "siteUser", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private UserProfile userProfile;
 
 }

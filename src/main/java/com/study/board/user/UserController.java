@@ -76,11 +76,6 @@ public class UserController {
         }
     }
 
-
-
-
-
-
     @GetMapping("/edit")
     public String editUser(Model model, @AuthenticationPrincipal UserDetails userDetails) {
         if (userDetails == null) {
@@ -98,6 +93,7 @@ public class UserController {
 
         return "edit";
     }
+
 
     @PostMapping("/edit")
     public String edit(@Valid UserCreateForm userCreateForm, BindingResult bindingResult, Model model, @AuthenticationPrincipal UserDetails userDetails) {
@@ -135,6 +131,7 @@ public class UserController {
         return "redirect:/user/main";
     }
 
+/*
 
     @PostMapping("/uploadProfile")
     public String uploadProfileImage(@RequestParam("profileImage") MultipartFile file,
@@ -151,6 +148,7 @@ public class UserController {
         }
         return "redirect:/user/edit";
     }
+*/
 
     //이거슨 탈퇴
     //@DeleteMapping("/delete")
@@ -165,6 +163,7 @@ public class UserController {
      //   }
     //}
 
+    /*
     @GetMapping("/profileImage/{username}")
     @ResponseBody
     public byte[] getProfileImage(@PathVariable String username) {
@@ -173,5 +172,6 @@ public class UserController {
             throw new IllegalArgumentException("프로필 이미지가 없습니다.");
         }
         return user.getProfileImage();
-    }
+    }*/
+
 }
