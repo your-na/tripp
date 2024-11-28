@@ -12,16 +12,16 @@
 
 <main>
     <div class="form-container">
-        <form action="/user/edit" method="post">
+        <form action="/user/edit" method="post" enctype="multipart/form-data">
 
             <div class="profile-pic" th:each="image : ${images}">
                 <img th:src="@{${image.url}}" alt="프로필 이미지" id="profileImage" >
-
-                <input type="file" id="files" multiple style="display: none;" accept="image/*">
-                <label for="files">
-                    <i class="edit-icon">✏️</i>
-                </label>
             </div>
+
+            <input type="file" id="files" multiple style="display: none;" accept="image/*">
+            <label for="files">
+                <i class="edit-icon">✏️</i>
+            </label>
 
             <div class="form-group">
                 <label for="nickname">닉네임</label>
@@ -81,33 +81,5 @@
     <button type="button" class="delete-button" onclick="deleteAccount()">탈퇴</button>
 </main>
 
-<script>
-    function deleteAccount() {
-        if (confirm("정말 탈퇴하시겠습니까?")) {
-            fetch("/user/delete", { method: "DELETE" })
-                .then(response => {
-                    if (response.ok) {
-                        alert("탈퇴가 완료되었습니다.");
-                        window.location.href = "/user/signup";  // 탈퇴 후 자동으로 회원가입 페이지로 이동
-                    } else {
-                        alert("탈퇴 중 문제가 발생했습니다.");
-                    }
-                });
-        }
-    }
-
-    // 파일 선택 후 미리보기
-    document.getElementById('fileInput').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                // 선택한 이미지 파일을 프로필 이미지에 설정
-                document.getElementById('profileImage').src = e.target.result;
-            };
-            reader.readAsDataURL(file);
-        }
-    });
-</script>
 </body>
 </html>

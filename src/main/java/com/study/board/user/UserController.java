@@ -100,8 +100,8 @@ public class UserController {
         model.addAttribute("birthdate", user.getBirthdate());
         model.addAttribute("gender", user.getGender());
         Long id =user.getId();
-        Optional<UserImage> images = userImageRepository.findBySiteUserId(id);
-        model.addAttribute("images", images);
+        List<UserImage> images = userImageRepository.findBySiteUserId(id);
+        model.addAttribute("images",images);
         return "edit";
     }
 
@@ -114,8 +114,6 @@ public class UserController {
         try {
             String username = userDetails.getUsername();
             SiteUser siteUser = userService.getUser(username);
-
-
             // 사용자 정보 업데이트
             siteUser.setBirthdate(userEditForm.getBirthdate());
             siteUser.setNickname(userEditForm.getNickname());
@@ -129,11 +127,11 @@ public class UserController {
                 userService.updateUser(siteUser);
                 userService.saveUserImages(siteUser, files);
 
-                System.out.println("보드컨트롤러 이미지저장");
+                System.out.println("유저 이미지저장");
             } catch (Exception e) {
                 model.addAttribute("error", "파일 업로드 중 문제가 발생했습니다.");
-                System.out.println("보드서비스 이미지저장중 오류"+e.getMessage());
-                return "boardwrite"; // 에러 발생 시 글 작성 화면으로 돌아가기
+                System.out.println("유저서비스 이미지저장중 오류"+e.getMessage());
+                return "edit"; // 에러 발생 시 글 작성 화면으로 돌아가기
             }
 
             model.addAttribute("message", "회원정보가 업데이트되었습니다.");
