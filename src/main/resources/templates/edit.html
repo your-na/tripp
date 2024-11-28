@@ -45,21 +45,23 @@
                         <option th:each="y : ${#numbers.sequence(1900, 2024)}"
                                 th:value="${y}"
                                 th:text="${y}"
-                                th:selected="${y == #temporals.format(user.birthdate, 'yyyy')}"></option>
+                                th:selected="${y == year}"></option>
                     </select>
+
                     <!-- 월 -->
                     <select id="month" name="month">
                         <option th:each="m : ${#numbers.sequence(1, 12)}"
                                 th:value="${m}"
                                 th:text="${m}"
-                                th:selected="${m == #temporals.format(user.birthdate, 'MM')}"></option>
+                                th:selected="${m == month}"></option>
                     </select>
+
                     <!-- 일 -->
                     <select id="day" name="day">
                         <option th:each="d : ${#numbers.sequence(1, 31)}"
                                 th:value="${d}"
                                 th:text="${d}"
-                                th:selected="${d == #temporals.format(user.birthdate, 'dd')}"></option>
+                                th:selected="${d == day}"></option>
                     </select>
                 </div>
             </div>

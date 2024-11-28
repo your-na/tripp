@@ -88,10 +88,14 @@ public class UserController {
         }
 
         SiteUser user = userService.getCurrentUser(userDetails.getUsername());
+        model.addAttribute("year", user.getBirthdate().getYear());
+        model.addAttribute("month", user.getBirthdate().getMonthValue());
+        model.addAttribute("day", user.getBirthdate().getDayOfMonth());
 
         model.addAttribute("user", user);
         model.addAttribute("intro", Optional.ofNullable(user.getIntro()).orElse("자기소개를 입력하세요."));
         model.addAttribute("birthdate", user.getBirthdate());
+        model.addAttribute("gender", user.getGender());
 
         return "edit";
     }
@@ -106,20 +110,13 @@ public class UserController {
             String username = userDetails.getUsername();
             SiteUser siteUser = userService.getUser(username);
 
-            // 생년월일 파싱
-            LocalDate birthdate = userEditForm.getBirthdateAsLocalDate();  // getBirthdateAsLocalDate() 호출
-
-            if (birthdate == null) {
-                bindingResult.rejectValue("birthdate", "error.birthdate", "올바른 생년월일 형식을 입력해주세요.");
-                return "edit";
-            }
 
             // 사용자 정보 업데이트
-            siteUser.setBirthdate(birthdate);
+            siteUser.setBirthdate(userEditForm.getBirthdate());
             siteUser.setNickname(userEditForm.getNickname());
-            siteUser.setPhone(userEditForm.getPhone());
             siteUser.setName(userEditForm.getName());
-            siteUser.setAddress(userEditForm.getAddress());
+            siteUser.setIntro(userEditForm.getIntro());
+            siteUser.setGender(userEditForm.getGender());
             userService.updateUser(siteUser);
 
             model.addAttribute("message", "회원정보가 업데이트되었습니다.");
@@ -129,7 +126,7 @@ public class UserController {
             return "edit";
         }
 
-        return "redirect:/user/main";
+        return "redirect:/main";
     }
 
 
