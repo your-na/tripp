@@ -116,29 +116,28 @@ public class UserController {
             SiteUser siteUser = userService.getUser(username);
             // 사용자 정보 업데이트
             siteUser.setBirthdate(userEditForm.getBirthdate());
-            siteUser.setNickname(userEditForm.getNickname());
+
             siteUser.setName(userEditForm.getName());
             siteUser.setIntro(userEditForm.getIntro());
             siteUser.setGender(userEditForm.getGender());
+            siteUser.setNickname(userEditForm.getNickname());
             userService.updateUser(siteUser);
 
             try {
-                // 게시글 저장
-                userService.updateUser(siteUser);
                 userService.saveUserImages(siteUser, files);
 
                 System.out.println("유저 이미지저장");
             } catch (Exception e) {
                 model.addAttribute("error", "파일 업로드 중 문제가 발생했습니다.");
                 System.out.println("유저서비스 이미지저장중 오류"+e.getMessage());
-                return "edit"; // 에러 발생 시 글 작성 화면으로 돌아가기
+                return "redirect:/user/edit"; // 에러 발생 시 글 작성 화면으로 돌아가기
             }
 
             model.addAttribute("message", "회원정보가 업데이트되었습니다.");
         } catch (IllegalArgumentException e) {
             // 생년월일 형식 오류 시 처리
             bindingResult.rejectValue("birthdate", "error.birthdate", e.getMessage());
-            return "edit";
+            return "redirect:/user/edit";
         }
 
         return "redirect:/main";
