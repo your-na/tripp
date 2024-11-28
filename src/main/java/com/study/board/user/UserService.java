@@ -3,17 +3,28 @@ package com.study.board.user;
 import com.study.board.DataNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+
+    @Autowired
+    private UserImageRepository userImageRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -50,8 +61,6 @@ public class UserService {
         }
     }
 
-
-
     public SiteUser getCurrentUser(String username) {
         Optional<SiteUser> user = userRepository.findByUsername(username);
         if (user.isEmpty()) {
@@ -60,4 +69,26 @@ public class UserService {
         return user.orElse(null);
     }
 
+    @Value("${file.userImagePath}")
+    private String uploadFolder;
+
+    public void saveUserImages(SiteUser user, List<MultipartFile> files) throws IOException {
+        for (MultipartFile file : files) {
+            if (!file.isEmpty()) {
+                UUID uuid = UUID.randomUUID();
+                String imageFileName = uuid + "_" + file.getOriginalFilename();
+                File destinationFile = new File(uploadFolder + imageFileName);
+
+                // 파일을 지정된 위치에 저장
+                file.transferTo(destinationFile);
+
+                // UserImage 엔티티 생성 후 DB에 저장
+                UserImage image = new UserImage();
+                image.setUrl("/userImageUpload/" + imageFileName); // 이미지 URL
+                image.setSiteUser(user); // 게시글과 연결
+                userImageRepository.save(image);
+                System.out.println("보드서비스 이미지저장");
+            }
+        }
+    }
 }

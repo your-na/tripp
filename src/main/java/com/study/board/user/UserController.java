@@ -1,5 +1,6 @@
 package com.study.board.user;
 
+import com.study.board.entity.BoardImage;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -27,6 +29,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final UserImageRepository userImageRepository;
 
     @GetMapping("/signup")
     public String signup(Model model) {
@@ -96,12 +99,14 @@ public class UserController {
         model.addAttribute("intro", Optional.ofNullable(user.getIntro()).orElse("자기소개를 입력하세요."));
         model.addAttribute("birthdate", user.getBirthdate());
         model.addAttribute("gender", user.getGender());
-
+        Long id =user.getId();
+        Optional<UserImage> images = userImageRepository.findBySiteUserId(id);
+        model.addAttribute("images", images);
         return "edit";
     }
 
     @PostMapping("/edit")
-    public String edit(@Valid UserEditForm userEditForm, BindingResult bindingResult, Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    public String edit(@Valid UserEditForm userEditForm, BindingResult bindingResult, Model model, @AuthenticationPrincipal UserDetails userDetails,@RequestParam(value = "files", required = false) List<MultipartFile> files) {
         if (bindingResult.hasErrors()) {
             return "edit";
         }
@@ -118,6 +123,18 @@ public class UserController {
             siteUser.setIntro(userEditForm.getIntro());
             siteUser.setGender(userEditForm.getGender());
             userService.updateUser(siteUser);
+
+            try {
+                // 게시글 저장
+                userService.updateUser(siteUser);
+                userService.saveUserImages(siteUser, files);
+
+                System.out.println("보드컨트롤러 이미지저장");
+            } catch (Exception e) {
+                model.addAttribute("error", "파일 업로드 중 문제가 발생했습니다.");
+                System.out.println("보드서비스 이미지저장중 오류"+e.getMessage());
+                return "boardwrite"; // 에러 발생 시 글 작성 화면으로 돌아가기
+            }
 
             model.addAttribute("message", "회원정보가 업데이트되었습니다.");
         } catch (IllegalArgumentException e) {

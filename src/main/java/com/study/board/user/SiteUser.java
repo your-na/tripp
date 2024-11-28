@@ -13,7 +13,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @Entity
-@Table(name = "site_user")
 public class SiteUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
