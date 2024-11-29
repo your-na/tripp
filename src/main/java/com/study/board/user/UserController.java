@@ -101,6 +101,12 @@ public class UserController {
         model.addAttribute("gender", user.getGender());
         Long id =user.getId();
         List<UserImage> images = userImageRepository.findBySiteUserId(id);
+        if (images.isEmpty()) {
+            // 기본 이미지 설정
+            UserImage defaultImage = new UserImage();
+            defaultImage.setUrl("/images/user.png"); // 기본 이미지 경로 설정
+            images.add(defaultImage);
+        }
         model.addAttribute("images",images);
         return "edit";
     }
@@ -121,9 +127,8 @@ public class UserController {
             siteUser.setIntro(userEditForm.getIntro());
             siteUser.setGender(userEditForm.getGender());
             siteUser.setNickname(userEditForm.getNickname());
-            userService.updateUser(siteUser);
-
             try {
+                userService.updateUser(siteUser);
                 userService.saveUserImages(siteUser, files);
 
                 System.out.println("유저 이미지저장");

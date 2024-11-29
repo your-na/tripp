@@ -73,12 +73,13 @@ public class UserService {
     private String uploadFolder;
 
     public void saveUserImages(SiteUser user, List<MultipartFile> files) throws IOException {
+        System.out.println("유저서비스 이미지저장 시작전 서비스 호출");
         for (MultipartFile file : files) {
             if (!file.isEmpty()) {
                 UUID uuid = UUID.randomUUID();
                 String imageFileName = uuid + "_" + file.getOriginalFilename();
                 File destinationFile = new File(uploadFolder + imageFileName);
-
+                System.out.println("유저서비스 이미지저장 중입니다");
                 // 파일을 지정된 위치에 저장
                 file.transferTo(destinationFile);
 
@@ -87,7 +88,7 @@ public class UserService {
                 image.setUrl("/userImageUpload/" + imageFileName); // 이미지 URL
                 image.setSiteUser(user); // 게시글과 연결
                 userImageRepository.save(image);
-                System.out.println("보드서비스 이미지저장");
+                System.out.println("유저서비스 이미지저장");
             }
         }
     }

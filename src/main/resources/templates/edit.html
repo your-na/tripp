@@ -13,12 +13,11 @@
 <main>
     <div class="form-container">
         <form action="/user/edit" method="post" enctype="multipart/form-data">
-
             <div class="profile-pic" th:each="image : ${images}">
                 <img th:src="@{${image.url}}" alt="프로필 이미지" id="profileImage" >
             </div>
 
-            <input type="file" id="files" multiple style="display: none;" accept="image/*">
+            <input type="file" name="files" id="files" multiple style="display: none;" accept="image/*">
             <label for="files">
                 <i class="edit-icon">✏️</i>
             </label>
