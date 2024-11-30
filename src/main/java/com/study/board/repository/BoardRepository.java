@@ -31,4 +31,5 @@ public interface BoardRepository extends JpaRepository<Board,Integer> {
     """)
     List<Board> findTop10ByRankingScore();
     List<Board> findByAuthor(SiteUser author);
+    List<Board> findByVoter(SiteUser user);
 }

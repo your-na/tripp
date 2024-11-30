@@ -25,8 +25,8 @@
                     <ul>
                         <li><a href="/user/edit">회원정보수정</a></li>
                         <li><a href="/mypage/myboard">내가 쓴 게시글</a></li>
-                        <li><a href="mypage/myheart">좋아요 누른 게시글</a></li>
-                        <li><a href="mypage/mypost">저장 한 게시글</a></li>
+                        <li><a href="/mypage/myheart">좋아요 누른 게시글</a></li>
+                        <li><a href="/mypage/mypost">저장 한 게시글</a></li>
                         <li><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
                             <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a></li>
                     </ul>

@@ -117,6 +117,9 @@ public class BoardService {
     public List<Board> getBoardsByUser(SiteUser user) {
         return boardRepository.findByAuthor(user);
     }
+    public List<Board> getBoardsLikedByUser(SiteUser user) {
+        return boardRepository.findByVoter(user);
+    }
     // 댓글 수 기준 랭킹
     public List<Board> getTopRankedByComments() {
         return boardRepository.findTop10ByCommentCount();

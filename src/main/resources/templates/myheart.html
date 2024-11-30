@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Page</title>
+    <link rel="stylesheet" href="/css/myboard.css">
+</head>
+<body>
+<div th:insert="~{header :: header}"></div>
+
+<div>
+    <h2>내가 하트 누른 게시글</h2>
+    <div class="custom-line"></div>
+    <br>
+    <div class="stats-container">
+        <div class="stats-container">
+            <span class="margin-left">내가 하트 누른 게시글 <span class="stats-number" th:text="${heartCount}"></span></span>
+        </div>
+
+        <div class="content-container">
+
+            <div class="post-list" th:each="board : ${likedBoards}">
+                <div class="post-item">
+                    <div class="post-image">
+                        <img th:src="@{${board.boardImages[0].url}}" alt="게시글 이미지" th:if="${board.boardImages != null and not #lists.isEmpty(board.boardImages)}">
+                    </div>
+                    <div class="post-content">
+                        <a th:href="@{/board/view(id=${board.id})}">
+                            <h3 th:text="${board.title}">제목</h3>
+                            <p th:text="${board.content}">내용</p>
+                            <div class="post-info">
+                                <span th:text="${#dates.format(board.date, 'yyyy-MM-dd')}">작성일</span> | ♥ <span th:text="${#lists.size(board.voter)}">하트수</span>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

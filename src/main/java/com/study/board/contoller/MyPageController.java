@@ -37,4 +37,18 @@ public class MyPageController {
         model.addAttribute("postCount", postCount);
         return "myboard";
     }
+
+    @GetMapping("/myheart")
+    public String myhehart(Model model, Principal principal) {
+        String username = principal.getName();
+        SiteUser user = userService.getUserByUsername(username);
+        List<Board> likedBoards =boardService.getBoardsLikedByUser(user);
+        if (likedBoards == null) {
+            likedBoards = new ArrayList<>();
+        }
+        int heartCount = likedBoards.size();
+        model.addAttribute("likedBoards", likedBoards);
+        model.addAttribute("heartCount", heartCount);
+        return "myheart";
+    }
 }
