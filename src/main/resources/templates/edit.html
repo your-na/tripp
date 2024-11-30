@@ -16,11 +16,10 @@
             <div class="profile-pic" th:each="image : ${images}">
                 <img th:src="@{${image.url}}" alt="프로필 이미지" id="profileImage" >
             </div>
-
-            <input type="file" name="files" id="files" multiple style="display: none;" accept="image/*">
             <label for="files">
                 <i class="edit-icon">✏️</i>
             </label>
+            <input type="file" name="files" id="files" multiple style="display: none;" accept="image/*">
 
             <div class="form-group">
                 <label for="nickname">닉네임</label>
@@ -79,6 +78,29 @@
     </div>
     <button type="button" class="delete-button" onclick="deleteAccount()">탈퇴</button>
 </main>
-
+<script>
+    function deleteAccount() {
+        if (confirm("정말로 탈퇴하시겠습니까?")) {
+            fetch('/user/delete', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert("계정이 삭제되었습니다.");
+                        window.location.href = '/user/signup'; // 삭제 후 리디렉션할 페이지
+                    } else {
+                        alert("계정 삭제에 실패했습니다.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("서버와의 통신에 문제가 발생했습니다.");
+                });
+        }
+    }
+</script>
 </body>
 </html>

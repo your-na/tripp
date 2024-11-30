@@ -40,13 +40,10 @@ public class UserService {
                 .build();
         // SiteUser 객체 저장
         user = userRepository.save(user);
-
         // UserImage 객체를 저장하기 위해 UserImage의 siteUser 필드에 저장된 User 객체를 설정
         defaultUserImage.setSiteUser(user);
-
         // UserImage 객체 저장
         userImageRepository.save(defaultUserImage);
-
         return user;
     }
 
@@ -61,6 +58,15 @@ public class UserService {
 
     public void updateUser(SiteUser siteUser) {
         userRepository.save(siteUser); // 수정된 사용자 정보를 저장
+    }
+    @Transactional
+    public void deleteUser(String username) throws Exception {
+        // 사용자 존재 여부 확인
+        if (userRepository.existsByUsername(username)) {
+            userRepository.deleteByUsername(username);
+        } else {
+            throw new Exception("User not found");
+        }
     }
 
     public SiteUser validateUser(String username, String password) {
@@ -85,7 +91,6 @@ public class UserService {
 
     @Value("${file.userImagePath}")
     private String uploadFolder;
-
     public void saveUserImages(SiteUser user, List<MultipartFile> files) throws IOException {
         System.out.println("유저서비스 이미지저장 시작전 서비스 호출");
         for (MultipartFile file : files) {
