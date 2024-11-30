@@ -1,6 +1,7 @@
 package com.study.board.repository;
 
 import com.study.board.entity.Board;
+import com.study.board.user.SiteUser;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +30,5 @@ public interface BoardRepository extends JpaRepository<Board,Integer> {
             (SIZE(b.commentList) * 0.5 + SIZE(b.voter) * 0.5) DESC
     """)
     List<Board> findTop10ByRankingScore();
+    List<Board> findByAuthor(SiteUser author);
 }

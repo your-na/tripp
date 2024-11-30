@@ -4,77 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sample Page</title>
-    <link rel="stylesheet" href="내가 쓴 게시글.css">
+    <link rel="stylesheet" href="/css/myboard.css">
 </head>
 <body>
-<header>
-    <div class="header-container">
-        <div class="top-bar">
-            <div class="logo">
-                <a href="../메인페이지/main.html">
-                    <img src="../Logo.png" alt="logo">
-                </a>
-            </div>
-            <div class="search-bar-container">
-                <input type="text" class="search-bar" placeholder="검색어 입력">
-                <span class="search-icon"><img src="../search.png" alt=""></span>
-            </div>
-            <div class="user-icons">
-                <div class="bell-icon">
-                    <img src="../bell.png" alt="">
-                </div>
-                <div class="user-icon">
-                    <img src="../user.png" alt="">
-                    <ul>
-                        <li><a href="../회원정보수정/edit.html">회원정보수정</li></a>
-                        <li><a href="../내가 쓴 게시글/내가 쓴 게시글.html">내가 쓴 게시글</li></a>
-                        <li><a href="../좋아요한 게시글/좋아요 한 게시글.html">좋아요 누른 게시글</li></a>
-                        <li><a href="../저장한 게시글/저장한 게시글.html">저장 한 게시글</li></a>
-                        <li><a href="../로그인/login.html">로그아웃</li></a>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <nav>
-            <ul class="main-menu">
-                <li class="menu-item">정보 요청
-                    <ul class="submenu">
-                        <li>정보 요청</li>
-                    </ul>
-                </li>
-                <li class="menu-item">게시글
-                    <ul class="submenu">
-                        <li><a href="../HOT게시글/hot.html">HOT 게시글</a></li>
-                        <li><a href="../최신 게시글/recent.html">최신 게시글</li></a>
-                        <li><a href="../게시글 작성/write.html">게시글 작성하기</li></a>
-                    </ul>
-                </li>
-                <li class="menu-item">1:1채팅
-                    <ul class="submenu">
-                        <li>1:1 채팅</li>
-                    </ul>
-                </li>
-                <li class="menu-item">랭킹
-                    <ul class="submenu">
-                        <li>조회수</li>
-                        <li>유용한 정보 제공자</li>
-                    </ul>
-                </li>
-                <li class="menu-item">자주 묻는 질문 (FAQ)
-                    <ul class="submenu">
-                        <li><a href="../FAQ/faq.html">자주 묻는 질문</li></a>
-                    </ul>
-                </li>
-                <li class="menu-item">지원&문의
-                    <ul class="submenu">
-                        <li>지원 요청</li>
-                        <li>고객센터</li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
-    </div>
-</header>
+<div th:insert="~{header :: header}"></div>
 
 <div>
     <h2>내가 쓴 게시글</h2>
@@ -82,79 +15,25 @@
     <br>
     <div class="stats-container">
         <div class="stats-container">
-            <span class="margin-left">총 게시글 수 <span class="stats-number">8</span></span>
-            <span>|</span>
-            <span>받은 좋아요 수 <span class="stats-number">320</span></span>
-            <span>|</span>
-            <span>저장된 게시글 수 <span class="stats-number">5</span></span>
+            <span class="margin-left">내가 쓴 게시글 수 <span class="stats-number" th:text="${postCount}"></span></span>
         </div>
 
         <div class="content-container">
 
-            <div class="post-list">
+            <div class="post-list" th:each="board : ${boards}">
                 <div class="post-item">
                     <div class="post-image">
-                        <img src="image.jpg" alt="게시글 이미지">
+                        <img th:src="@{${board.boardImages[0].url}}" alt="게시글 이미지" th:if="${board.boardImages != null and not #lists.isEmpty(board.boardImages)}">
                     </div>
                     <div class="post-content">
-                        <h3>일본 료칸을 추천합니다~!</h3>
-                        <p>겨울에 가면 경치도 좋은 료칸은 어떤가요?</p>
+                        <a th:href="@{/board/view(id=${board.id})}">
+                        <h3 th:text="${board.title}">제목</h3>
+                        <p th:text="${board.content}">내용</p>
                         <div class="post-info">
-                            <span>조회수 35</span> | <span>8월 20일 15:30</span> | <span>닉네임</span>
+                            <span th:text="${#dates.format(board.date, 'yyyy-MM-dd')}">작성일</span>
                         </div>
                     </div>
                 </div>
-
-                <!-- Duplicate post items -->
-                <div class="post-item">
-                    <div class="post-image">
-                        <img src="image.jpg" alt="게시글 이미지">
-                    </div>
-                    <div class="post-content">
-                        <h3>일본 료칸을 추천합니다~!</h3>
-                        <p>겨울에 가면 경치도 좋은 료칸은 어떤가요?</p>
-                        <div class="post-info">
-                            <span>조회수 35</span> | <span>8월 20일 15:30</span> | <span>닉네임</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="post-item">
-                    <div class="post-image">
-                        <img src="image.jpg" alt="게시글 이미지">
-                    </div>
-                    <div class="post-content">
-                        <h3>일본 료칸을 추천합니다~!</h3>
-                        <p>겨울에 가면 경치도 좋은 료칸은 어떤가요?</p>
-                        <div class="post-info">
-                            <span>조회수 35</span> | <span>8월 20일 15:30</span> | <span>닉네임</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="post-item">
-                    <div class="post-image">
-                        <img src="image.jpg" alt="게시글 이미지">
-                    </div>
-                    <div class="post-content">
-                        <h3>일본 료칸을 추천합니다~!</h3>
-                        <p>겨울에 가면 경치도 좋은 료칸은 어떤가요?</p>
-                        <div class="post-info">
-                            <span>조회수 35</span> | <span>8월 20일 15:30</span> | <span>닉네임</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Pagination -->
-                <div class="pagination">
-                    <a href="#" class="prev">이전</a>
-                    <span class="page-number">1</span>
-                    <span class="page-number">2</span>
-                    <span class="page-number">3</span>
-                    <span class="page-number">4</span>
-                    <a href="#" class="next">다음</a>
-                </div>
-
             </div>
         </div>
     </div>
