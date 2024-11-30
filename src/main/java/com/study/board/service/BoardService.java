@@ -111,6 +111,9 @@ public class BoardService {
             }
         }
     }
+    public List<Board> getAllBoards() {
+        return boardRepository.findAll();
+    }
 
     // 댓글 수 기준 랭킹
     public List<Board> getTopRankedByComments() {

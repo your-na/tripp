@@ -33,7 +33,10 @@ public class SecurityConfig {
                 .csrf().disable()  // CSRF 보호 비활성화 (테스트 용도)
 
                 .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+                        .requestMatchers("/admin/**").hasRole("ADMIN") // /admin 경로는 ADMIN 역할만 접근 가능
+                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+                )
+
 
 
                 .formLogin((formLogin) -> formLogin

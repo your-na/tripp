@@ -54,7 +54,7 @@ public class BoardController {
         return "boardList";
     }
 
-    @GetMapping("/board/faq")
+    @GetMapping("/ faq")
     public String faq() {
         return "faq";
     }

@@ -103,4 +103,7 @@ public class UserService {
             }
         }
     }
+    public List<SiteUser> getAllUsers() {
+        return userRepository.findAll();
+    }
 }
