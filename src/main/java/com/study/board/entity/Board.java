@@ -29,12 +29,16 @@ public class Board {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<Comment> commentList;
+    public int getCommentCount() {
+        return (commentList != null) ? commentList.size() : 0;
+    }
 
     @ManyToOne
     private SiteUser author;
 
     @ManyToMany
     Set<SiteUser> voter;
+
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @OrderBy("id asc")

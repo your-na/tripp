@@ -26,20 +26,17 @@
             </div>
 
         </div>
+        <div class="post-info">
+            <span th:if="${board.author != null}" th:text="${board.author.username}"></span> |
+            <span th:text="${#dates.format(board.date, 'yyyy-MM-dd')}">2024-01-01</span>
+        </div>
 
-        <!--
-        게시글 이미지 구현중
-        <img src="/images/beach.png" alt="게시글 이미지" class="post-image">
-        -->
         <div class="images">
             <div th:each="image : ${images}">  <!-- ${images}로 수정 -->
                 <img th:src="@{${image.url}}" alt="게시글 이미지" class="post-image">
             </div>
         </div>
-        <div class="post-info">
-            <span th:if="${board.author != null}" th:text="${board.author.username}"></span> |
-            <span th:text="${#dates.format(board.date, 'yyyy-MM-dd')}">2024-01-01</span>
-        </div>
+
         <div class="post-content">
             <pre th:utext="${board.content}"></pre>
         </div>
@@ -63,8 +60,7 @@
     <div class="comment-list">
         <div class="comment-header" th:each="comment : ${board.commentList}" >
 
-            <!-- 작성자 이미지 미구현
-            <img src="../profile.png" alt="작성자1 사진" class="comment-author-img">-->
+            <img th:if="${comment.author != null}" th:src="@{${comment.author.userImage.url}}" alt="작성자 사진" class="comment-author-img">
             <div class="comment-details">
                 <div class="comment-author" th:if="${comment.author != null}" th:text="${comment.author.username}">작성자1</div>
                 <div class="comment-text">

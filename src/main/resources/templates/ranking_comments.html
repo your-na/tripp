@@ -24,7 +24,7 @@
                         <p class="rank-title" th:text="${board.title}">게시글 제목</p>
                     </a>
                     <p class="rank-meta">
-                        <span class="heart-icon">♥ <span th:text="${#lists.size(board.voter)}">0</span></span>
+                        <span class="heart-icon">댓글수 <span th:text="${board.getCommentCount()}">0</span></span>
                         <span th:text="${#dates.format(board.date, 'HH:mm')}">00:00</span> |
                         <span th:text="${board.author.username}">작성자</span>
                     </p>

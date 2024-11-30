@@ -220,8 +220,13 @@ a {
 .post-image {
     width: 100%;
     height: auto;
+    margin-top: 10px;
     margin-bottom: 20px;
     border-radius: 8px;
+    max-width: 100%;  /* 너비의 최대값을 부모 요소의 너비로 설정 */
+    max-height: 500px;  /* 높이의 최대값을 300px로 설정 */
+    width: auto;  /* 너비를 자동으로 조정하여 비율을 유지 */
+    height: auto;  /* 높이를 자동으로 조정하여 비율을 유지 */
 }
 
 /* 게시글 좌측 하단 정보 (댓글수, 하트수, 저장된 수) */

@@ -33,7 +33,20 @@ public class UserService {
             throw new DataIntegrityViolationException("이미 사용 중인 사용자명입니다.");
         }
         SiteUser user = SiteUser.from(userCreateForm, passwordEncoder);  // SiteUser 객체 생성
-        return userRepository.save(user);
+        UserImage defaultUserImage = UserImage.builder()
+                .url("/userImageUpload/default.jpg")  // 기본 이미지 URL 설정
+                .siteUser(user)  // SiteUser와 연관 설정
+                .build();
+        // SiteUser 객체 저장
+        user = userRepository.save(user);
+
+        // UserImage 객체를 저장하기 위해 UserImage의 siteUser 필드에 저장된 User 객체를 설정
+        defaultUserImage.setSiteUser(user);
+
+        // UserImage 객체 저장
+        userImageRepository.save(defaultUserImage);
+
+        return user;
     }
 
     public SiteUser getUser(String username) {

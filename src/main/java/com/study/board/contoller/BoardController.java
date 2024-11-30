@@ -141,6 +141,7 @@ public class BoardController {
     // 댓글 수 랭킹 페이지
     @GetMapping("/ranking/comments")
     public String getCommentRanking(Model model) {
+
         model.addAttribute("commentRanking", boardService.getTopRankedByComments());
         return "ranking_comments"; // ranking_comments.html로 이동
     }
