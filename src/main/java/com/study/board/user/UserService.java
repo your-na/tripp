@@ -84,9 +84,7 @@ public class UserService {
                 file.transferTo(destinationFile);
 
                 // UserImage 엔티티 생성 후 DB에 저장
-                UserImage image = new UserImage();
-                image.setUrl("/userImageUpload/" + imageFileName); // 이미지 URL
-                image.setSiteUser(user); // 게시글과 연결
+                UserImage image = new UserImage(user.getId(),"/userImageUpload/" + imageFileName,user);
                 userImageRepository.save(image);
                 System.out.println("유저서비스 이미지저장");
             }

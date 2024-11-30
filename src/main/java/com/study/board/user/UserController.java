@@ -128,7 +128,6 @@ public class UserController {
             siteUser.setGender(userEditForm.getGender());
             siteUser.setNickname(userEditForm.getNickname());
             try {
-                userService.updateUser(siteUser);
                 userService.saveUserImages(siteUser, files);
 
                 System.out.println("유저 이미지저장");
@@ -136,6 +135,8 @@ public class UserController {
                 model.addAttribute("error", "파일 업로드 중 문제가 발생했습니다.");
                 System.out.println("유저서비스 이미지저장중 오류"+e.getMessage());
                 return "redirect:/user/edit"; // 에러 발생 시 글 작성 화면으로 돌아가기
+            }finally{
+                userService.updateUser(siteUser);
             }
 
             model.addAttribute("message", "회원정보가 업데이트되었습니다.");

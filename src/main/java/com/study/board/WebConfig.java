@@ -12,5 +12,8 @@ public class WebConfig implements WebMvcConfigurer {
         // '/boardImageUpload/**' 경로로 요청된 이미지를 'C:/Temp/boardImageUpload'에서 찾도록 설정
         registry.addResourceHandler("/boardImageUpload/**")
                 .addResourceLocations("file:///C:/Temp/boardImageUpload/");
+        // '/userImageUpload/**' 경로로 요청된 이미지를 'C:/Temp/userImageUpload'에서 찾도록 설정
+        registry.addResourceHandler("/userImageUpload/**")
+                .addResourceLocations("file:///C:/Temp/userImageUpload/");
     }
 }
