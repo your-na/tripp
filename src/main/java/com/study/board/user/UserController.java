@@ -1,6 +1,9 @@
 package com.study.board.user;
 
+import com.study.board.entity.Board;
 import com.study.board.entity.BoardImage;
+import com.study.board.repository.BoardImageRepository;
+import com.study.board.repository.BoardRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +36,8 @@ public class UserController {
 
     private final UserService userService;
     private final UserImageRepository userImageRepository;
+    private final UserRepository userRepository;
+    private final BoardRepository boardRepository;
 
     @GetMapping("/signup")
     public String signup(Model model) {
@@ -77,6 +82,16 @@ public class UserController {
             model.addAttribute("error", "아이디 또는 비밀번호가 잘못되었습니다.");
             return "login_form";
         }
+    }
+    @GetMapping("/profile/{id}")
+    public String profile(@PathVariable Long id, Model model) {
+        // 사용자 정보 조회
+        SiteUser siteUser = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        List<Board> boards = boardRepository.findByAuthor(siteUser);
+        model.addAttribute("user", siteUser);
+        model.addAttribute("boards", boards);
+        return "profile"; // 로그인 화면
     }
 
     @GetMapping("/edit")
@@ -145,7 +160,7 @@ public class UserController {
     public ResponseEntity<String> deleteAccount(Principal principal) {
         try {
             // 사용자 삭제 로직
-            userService.deleteUser(principal.getName());
+            userService.deleteUser(principal);
             return ResponseEntity.ok("계정이 삭제되었습니다.");
         } catch (Exception e) {
             e.printStackTrace();

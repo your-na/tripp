@@ -59,10 +59,10 @@
     </div>
     <div class="comment-list">
         <div class="comment-header" th:each="comment : ${board.commentList}" >
-
             <img th:if="${comment.author != null}" th:src="@{${comment.author.userImage.url}}" alt="작성자 사진" class="comment-author-img">
             <div class="comment-details">
-                <div class="comment-author" th:if="${comment.author != null}" th:text="${comment.author.username}">작성자1</div>
+                <div class="comment-author" th:if="${comment.author != null}">
+                    <a th:href="@{/user/profile/{id}(id=${comment.author.id})}" th:text="${comment.author.nickname}">작성자1</a></div>
                 <div class="comment-text">
                     <p  th:text="${comment.content}">이것은 댓글입니다. 댓글의 내용이 여기에 표시됩니다.</p>
                 </div>

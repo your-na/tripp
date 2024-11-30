@@ -120,6 +120,16 @@ public class BoardService {
     public List<Board> getBoardsLikedByUser(SiteUser user) {
         return boardRepository.findByVoter(user);
     }
+    public void removeUserFromBoards(SiteUser siteUser) {
+        // 사용자가 투표한 모든 게시글을 가져옴
+        List<Board> boards = getBoardsLikedByUser(siteUser);
+
+        // 각 게시글의 투표 목록에서 해당 사용자를 제거
+        for (Board board : boards) {
+            board.getVoter().remove(siteUser);
+            boardRepository.save(board); // 수정된 게시글을 데이터베이스에 저장
+        }
+    }
     // 댓글 수 기준 랭킹
     public List<Board> getTopRankedByComments() {
         return boardRepository.findTop10ByCommentCount();

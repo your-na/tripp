@@ -1,6 +1,10 @@
 package com.study.board.user;
 
 import com.study.board.DataNotFoundException;
+import com.study.board.entity.Board;
+import com.study.board.entity.Comment;
+import com.study.board.repository.BoardRepository;
+import com.study.board.repository.CommentRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,6 +30,11 @@ public class UserService {
 
     @Autowired
     private UserImageRepository userImageRepository;
+
+    @Autowired
+    private BoardRepository boardRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -60,14 +70,39 @@ public class UserService {
         userRepository.save(siteUser); // 수정된 사용자 정보를 저장
     }
     @Transactional
-    public void deleteUser(String username) throws Exception {
+    public void deleteUser(Principal principal) throws Exception {
+        // 현재 로그인한 사용자의 username 가져오기
+        String username = principal.getName();
+
         // 사용자 존재 여부 확인
-        if (userRepository.existsByUsername(username)) {
+        SiteUser siteUser = userRepository.findByUsername(username)
+                .orElseThrow(() -> new Exception("User not found"));
+        if (siteUser != null) {
+            // 사용자가 투표한 게시글에서 해당 사용자를 제거
+            List<Board> boardVoter = boardRepository.findByVoter(siteUser);
+            if (boardVoter != null){
+                for (Board board : boardVoter) {
+                    board.getVoter().remove(siteUser);
+                    boardRepository.save(board); // 변경된 게시글을 저장
+                }
+            }
+            List<Board> boardAuthor = boardRepository.findByAuthor(siteUser);
+            if (boardAuthor != null){
+                boardRepository.deleteAll(boardAuthor);
+            }
+            // 사용자가 작성한 댓글 삭제
+            List<Comment> comments = commentRepository.findByAuthor(siteUser);
+            if (comments != null) {
+                commentRepository.deleteAll(comments);
+            }
+
+            // 사용자 삭제
             userRepository.deleteByUsername(username);
         } else {
             throw new Exception("User not found");
         }
     }
+
 
     public SiteUser validateUser(String username, String password) {
         // 데이터베이스에서 사용자 검색 (null 처리)
