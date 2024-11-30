@@ -34,7 +34,7 @@
                         </a>
                     </div>
                     <div class="post-image">
-                        <img src="image.jpg" alt="게시글 이미지">
+                        <img th:src="@{${board.boardImages[0].url}}" alt="게시글 이미지" th:if="${board.boardImages != null and not #lists.isEmpty(board.boardImages)}">
                     </div>
                 </div>
             </div>
