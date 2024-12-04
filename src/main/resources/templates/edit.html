@@ -15,10 +15,10 @@
         <form action="/user/edit" method="post" enctype="multipart/form-data">
             <div class="profile-pic" th:each="image : ${images}">
                 <img th:src="@{${image.url}}" alt="프로필 이미지" id="profileImage" >
-            </div>
             <label for="files">
                 <i class="edit-icon">✏️</i>
             </label>
+            </div>
             <input type="file" name="files" id="files" multiple style="display: none;" accept="image/*">
 
             <div class="form-group">
