@@ -5,33 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sample Page</title>
     <link rel="stylesheet" href="/css/askpost.css">
+    <style>
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .question, .answer {
+            display: flex;
+            width: fit-content;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .question {
+            align-self: flex-end;
+            background-color: #e0f7fa;
+            border: 1px solid #b2ebf2;
+        }
+
+        .answer {
+            align-self: flex-start;
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+        }
+
+        .message {
+            padding: 5px 10px;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+
+        .author {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    </style>
 </head>
 <body>
 <div th:insert="~{header :: header}"/>
-<ul>
-    <th:block th:each="question : ${questions}">
-        <!-- Display question title -->
-        <li th:text="${question.title}"></li>
+<div class="layout">
+    <div class="content-container">
+    <div class="chat-container">
+        <th:block th:each="question : ${questions}">
+            <!-- Display question -->
+            <div class="question">
+                <div class="message">
+                    <p class="author" th:text="${question.title}"></p>
+                    <p th:text="${question.content}"></p>
+                </div>
+            </div>
 
-        <!-- Display question details -->
-        <p>Question ID: <span th:text="${question.id}"></span></p>
-        <p>Question Content: <span th:text="${question.content}"></span></p>
-
-        <div class="comment-list">
-            <!-- Iterate through each answer of the current question -->
-            <div class="comment-header" th:each="answer : ${question.answerList}">
-                <div class="comment-details">
-                    <!-- Display answer details if the author exists -->
-                    <div class="comment-author" th:if="${answer.author != null}">
-                        <p>Author: <span th:text="${answer.author}"></span></p>
-                    </div>
-                    <div class="comment-text">
+            <!-- Display answers -->
+            <th:block th:each="answer : ${question.answerList}">
+                <div class="answer">
+                    <div class="message">
+                        <p class="author" th:if="${answer.author != null}" th:text="${answer.author.nickname}"></p>
                         <p th:text="${answer.content}">이것은 댓글입니다. 댓글의 내용이 여기에 표시됩니다.</p>
                     </div>
                 </div>
-            </div>
-        </div>
-    </th:block>
-</ul>
+            </th:block>
+        </th:block>
+    </div>
+    </div>
+</div>
 </body>
 </html>

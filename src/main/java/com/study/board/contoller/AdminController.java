@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -29,6 +28,12 @@ public class AdminController {
         this.boardService = boardService;
         this.questionService = questionService; // 추가된 부분
     }
+
+    @GetMapping("")
+    public String redirectToDashboard() {
+        return "redirect:/admin/posts";
+    }
+
     @GetMapping("/posts")
     public String adminDashboard(Model model) {
         List <Board> boards = boardService.getAllBoards();

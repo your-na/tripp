@@ -1,11 +1,14 @@
 package com.study.board;
-import com.study.board.user.SiteUser;
+
 import com.study.board.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -14,7 +17,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import java.io.IOException;
+
 @EnableMethodSecurity(prePostEnabled = true)
 @Configuration
 @EnableWebSecurity
@@ -36,9 +43,6 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN") // /admin 경로는 ADMIN 역할만 접근 가능
                         .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
                 )
-
-
-
                 .formLogin((formLogin) -> formLogin
                         .loginPage("/user/login") // 사용자 정의 로그인 페이지
                         .defaultSuccessUrl("/main") // 로그인 성공 후 이동할 URL
@@ -52,7 +56,16 @@ public class SecurityConfig {
                 .logout((logout) -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout")) // 로그아웃 요청 경로
                         .logoutSuccessUrl("/user/login") // 로그아웃 성공 후 이동할 URL
-                        .invalidateHttpSession(true)); // 세션 무효화
+                        .invalidateHttpSession(true)) // 세션 무효화
+                .exceptionHandling((exceptions) -> exceptions
+                        .accessDeniedHandler(new AccessDeniedHandler() {
+                            @Override
+                            public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException {
+                                response.sendRedirect("/main"); // 접근 거부 시 /main으로 리디렉션
+                            }
+                        })
+                );
+
         return http.build();
     }
 
