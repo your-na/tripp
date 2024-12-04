@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>알림</title>
+  <link rel="stylesheet" href="/css/notification.css">
+</head>
+<body>
+<div th:insert="~{header :: header}">
+</div>
+
+<div class="content">
+  <div class="notification-header">
+    알림
+  </div>
+
+  <!-- 알림이 없을 때 -->
+  <div th:if="${notifications.isEmpty()}" class="no-notifications">
+    알림이 없습니다.
+  </div>
+
+  <!-- 알림 목록 -->
+  <div th:if="${!notifications.isEmpty()}" class="notifications">
+    <ul>
+      <li th:each="notification : ${notifications}" class="notification-item">
+        <a th:href="@{${notification.link}}">
+        <div class="notification-title" th:text="${notification.title}"></div>
+        <div class="notification-message" th:text="${notification.message}"></div>
+        <div class="notification-date" th:text="${#temporals.format(notification.createDate, 'yyyy-MM-dd HH:mm')}"></div>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>

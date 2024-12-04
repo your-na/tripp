@@ -1,8 +1,10 @@
 package com.study.board.contoller;
 
 import com.study.board.entity.Board;
+import com.study.board.entity.Notification;
 import com.study.board.entity.Question;
 import com.study.board.service.BoardService;
+import com.study.board.service.NotificationService;
 import com.study.board.service.QuestionService;
 import com.study.board.user.SiteUser;
 import com.study.board.user.UserService;
@@ -30,6 +32,7 @@ public class MyPageController {
     private UserService userService;
     @Autowired
     private QuestionService questionService;
+
 
     @GetMapping("/myboard")
     public String myboard(Model model, Principal principal) {
@@ -96,4 +99,5 @@ public class MyPageController {
         model.addAttribute("questions", questions);
         return "asklist"; // "asklist.html" 템플릿 파일을 반환
     }
+
 }
