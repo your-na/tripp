@@ -254,11 +254,13 @@ a {
 }
 
 .post-image {
-    width: 150px;
-    height: 100px;
+    max-width: 150px;
+    max-height: 100px;
     border-radius: 8px;
     background-size: cover;
     background-position: center;
+    overflow: hidden;
+    display: inline-block; /* 이미지 정렬 시 유용 */
 }
 
 .pagination {
