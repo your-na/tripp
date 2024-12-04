@@ -96,11 +96,20 @@ public class BoardController {
 
     // 게시글 세부내용
     @GetMapping("/board/view")
-    public String boardView(Model model, @RequestParam("id") int id) {
-        model.addAttribute("board", boardService.boardView(id));
+    public String boardView(Model model, @RequestParam("id") int id, Principal principal) {
+        Board board = boardService.boardView(id);
+        model.addAttribute("board", board);
+
+        // 로그인된 사용자가 있을 경우 투표 여부 확인
+        if (principal != null) {
+            SiteUser siteUser = userService.getUser(principal.getName());
+            boolean hasVoted = boardService.hasVoted(board, siteUser);
+            model.addAttribute("hasVoted", hasVoted);
+        }
+
         List<BoardImage> images = boardImageRepository.findByBoardId(id);
         model.addAttribute("images", images);
-        return "boardview"; // 뷰를 담당하는 템플릿 파일 이름 리턴에 써주면 된다..
+        return "boardview";
     }
     //게시글 삭제
     @GetMapping("/board/delete")

@@ -89,7 +89,10 @@ public class BoardService {
             }
         };
     }
-
+    public boolean hasVoted(Board board, SiteUser siteUser) {
+        // 게시글의 투표자 목록에 사용자가 포함되어 있는지 확인
+        return board.getVoter().contains(siteUser);
+    }
     public BoardService(BoardImageRepository boardImageRepository) {
         this.boardImageRepository = boardImageRepository;
     }

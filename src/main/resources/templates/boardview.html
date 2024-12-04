@@ -46,9 +46,11 @@
                 <span th:text="|${#lists.size(board.commentList)}|">댓글수</span>
             </div>
             <div>
-                <a href="#" class="recommend btn" th:href="@{|/vote/${board.id}|}">
-                    <img src="/images/heart.png" alt="하트 아이콘">
+                <!-- 예: 투표 여부에 따라 이미지 변경 -->
+                <a href="#" class="recommend btn" th:href="@{/vote/{id}(id=${board.id})}">
+                    <img th:src="@{${hasVoted} ? '/images/redHeart.png' : '/images/heart.png'}" alt="하트 아이콘">
                 </a>
+
                 <span class="badge rounded-pill bg-success" th:text="${#lists.size(board.voter)}"></span>
             </div>
             <div>
