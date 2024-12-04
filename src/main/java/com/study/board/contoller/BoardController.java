@@ -53,6 +53,19 @@ public class BoardController {
         model.addAttribute("kw", kw);
         return "boardList";
     }
+    @GetMapping("/board/search")
+    public String search(@RequestParam(value = "kw", defaultValue = "") String kw,
+                         @RequestParam(value = "page", defaultValue = "0") int page, Model model) {
+        // 검색어와 페이지 정보를 이용해 게시글 리스트 가져오기
+        Page<Board> paging = boardService.getList(page, kw);
+
+        // 모델에 검색어와 페이지 정보를 추가
+        model.addAttribute("paging", paging);
+        model.addAttribute("kw", kw);
+
+        // 검색 결과를 출력할 페이지를 반환
+        return "search"; // search.html 파일을 렌더링
+    }
 
     @GetMapping("/faq")
     public String faq() {
