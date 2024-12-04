@@ -22,12 +22,13 @@
                 <div class="user-icon">
                     <img src="/images/user.png" alt="">
                     <ul>
-                        <li><a href="/user/edit">회원정보수정</a></li>
-                        <li><a href="/mypage/myboard">내가 쓴 게시글</a></li>
-                        <li><a href="/mypage/myheart">좋아요 누른 게시글</a></li>
-                        <li><a href="/mypage/mypost">저장 한 게시글</a></li>
+                        <a href="/user/edit"><li>회원정보수정</li></a>
+                        <a href="/mypage/myboard"><li>내가 쓴 게시글</li></a>
+                        <a href="/mypage/myheart"><li>좋아요 누른 게시글</li></a>
+                        <a href="/mypage/mypost"><li>저장 한 게시글</li></a>
                         <li><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
-                            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a></li>
+                            <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -36,9 +37,9 @@
             <ul class="main-menu">
                 <li class="menu-item">게시글
                     <ul class="submenu">
-                        <li><a href="/board/hot">HOT 게시글</a></li>
-                        <li><a href="/board/list">최신 게시글</a></li>
-                        <li><a href="/board/write">게시글 작성하기</a></li>
+                        <a href="/board/hot"><li>HOT 게시글</li></a>
+                        <a href="/board/list"><li>최신 게시글</li></a>
+                        <a href="/board/write"><li>게시글 작성하기</li></a>
                     </ul>
                 </li>
                 <li class="menu-item">1:1채팅
@@ -48,13 +49,13 @@
                 </li>
                 <li class="menu-item">랭킹
                     <ul class="submenu">
-                        <li><a href="/ranking/comments">댓글수 랭킹</a></li>
-                        <li><a href="/ranking/likes">좋아요 랭킹</a></li>
+                        <a href="/ranking/comments"><li>댓글수 랭킹</li></a>
+                        <a href="/ranking/likes"><li>좋아요 랭킹</li></a>
                     </ul>
                 </li>
                 <li class="menu-item">자주 묻는 질문 (FAQ)
                     <ul class="submenu">
-                        <li><a href="/faq">자주 묻는 질문</a></li>
+                        <a href="/faq"><li>자주 묻는 질문</li></a>
                     </ul>
                 </li>
                 <li class="menu-item">지원&문의

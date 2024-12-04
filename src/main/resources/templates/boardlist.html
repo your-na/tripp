@@ -24,10 +24,7 @@
                         <a th:href="@{/board/view(id=${board.id})}">
                             <h3 th:text="${board.title}">게시글 제목</h3>
                             <p th:text="${board.content}">게시글 내용</p>
-
                             <div class="post-info">
-                                <!-- 조회수 미구현
-                                <span th:text="${board.viewCount}">조회수</span> |-->
                                 <span th:if="${board.date != null}" th:text="${#dates.format(board.date, 'yyyy-MM-dd')}">작성날짜</span> |
                                 <span th:if="${board.author != null}" th:text="${board.author.username}">닉네임</span>
                             </div>
