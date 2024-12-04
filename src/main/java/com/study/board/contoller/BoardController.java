@@ -44,7 +44,10 @@ public class BoardController {
         return "/main";
     }
 
-
+    @GetMapping("/chat")
+    public String chatPage() {
+        return "chat";
+    }
     //게시글 리스트
     @GetMapping("/board/list")
     public String list(Model model, @RequestParam(value="page", defaultValue="0") int page,@RequestParam(value="kw", defaultValue="") String kw) {
