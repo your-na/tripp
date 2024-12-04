@@ -10,7 +10,7 @@
                 </a>
             </div>
             <div class="search-bar-container">
-                <form id="searchForm" th:action="@{/board/list}" method="get">
+                <form id="searchForm" th:action="@{/board/search}" method="get">
                 <input type="text" name="kw" id="search_kw" class="search-bar" placeholder="검색어 입력" th:value="${kw}">
                     <span class="search-icon"><img src="/images/search.png" alt=""></span>
                 </form>
