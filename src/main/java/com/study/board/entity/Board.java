@@ -39,6 +39,9 @@ public class Board {
     @ManyToMany
     Set<SiteUser> voter;
 
+    @ManyToMany
+    Set<SiteUser> saver;
+
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @OrderBy("id asc")

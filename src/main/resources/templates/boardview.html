@@ -52,8 +52,10 @@
                 <span class="badge rounded-pill bg-success" th:text="${#lists.size(board.voter)}"></span>
             </div>
             <div>
-                <img src="/images/bookmark.png" alt="저장 아이콘">
-                <span>저장된 수</span>
+                <a href="#" class="recommend btn" th:href="@{|/save/${board.id}|}">
+                    <img src="/images/bookmark.png" alt="저장 아이콘">
+                </a>
+                <span class="badge rounded-pill bg-success" th:text="${#lists.size(board.saver)}"></span>
             </div>
         </div>
     </div>

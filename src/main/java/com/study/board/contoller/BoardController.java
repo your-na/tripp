@@ -54,7 +54,7 @@ public class BoardController {
         return "boardList";
     }
 
-    @GetMapping("/ faq")
+    @GetMapping("/faq")
     public String faq() {
         return "faq";
     }
@@ -132,10 +132,18 @@ public class BoardController {
     }
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/vote/{id}")
-    public String questionVote(Principal principal, @PathVariable("id") Integer id) {
-        Board question = this.boardService.getBoard(id);
+    public String boardVote(Principal principal, @PathVariable("id") Integer id) {
+        Board board = this.boardService.getBoard(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
-        this.boardService.vote(question, siteUser);
+        this.boardService.vote(board, siteUser);
+        return String.format("redirect:/board/view?id=%d", id);
+    }
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/save/{id}")
+    public String boardSave(Principal principal, @PathVariable("id") Integer id) {
+        Board board = this.boardService.getBoard(id);
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        this.boardService.save(board, siteUser);
         return String.format("redirect:/board/view?id=%d", id);
     }
     // 댓글 수 랭킹 페이지

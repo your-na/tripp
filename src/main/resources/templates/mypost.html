@@ -10,17 +10,15 @@
 <div th:insert="~{header :: header}"></div>
 
 <div>
-    <h2>내가 하트 누른 게시글</h2>
+    <h2>내가 저장한 게시글</h2>
     <div class="custom-line"></div>
     <br>
     <div class="stats-container">
         <div class="stats-container">
-            <span class="margin-left">내가 하트 누른 게시글 <span class="stats-number" th:text="${heartCount}"></span></span>
+            <span class="margin-left">내가 저장한 게시글 <span class="stats-number" th:text="${postCount}"></span></span>
         </div>
-
         <div class="content-container">
-
-            <div class="post-list" th:each="board : ${likedBoards}">
+            <div class="post-list" th:each="board : ${postBoards}">
                 <div class="post-item">
                     <div class="post-image">
                         <img th:src="@{${board.boardImages[0].url}}" alt="게시글 이미지" th:if="${board.boardImages != null and not #lists.isEmpty(board.boardImages)}">

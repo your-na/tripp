@@ -261,7 +261,7 @@ h2 {
 .custom-line {
     border-bottom: 1px solid #000;
     width: calc(100% - 40px); /* 좌우 여백을 뺀 너비 */
-    margin-top: 110px;
+    margin-top: 50px;
     margin-left: 20px;
     margin-right: 20px;
 }

@@ -56,6 +56,7 @@ public class BoardService {
         boardRepository.deleteById(id);
     }
 
+
     public Board getBoard(Integer id) {
         Optional<Board> board = this.boardRepository.findById(id);
         if (board.isPresent()) {
@@ -67,6 +68,10 @@ public class BoardService {
 
     public void vote(Board board, SiteUser siteUser) {
         board.getVoter().add(siteUser);
+        this.boardRepository.save(board);
+    }
+    public void save(Board board, SiteUser siteUser) {
+        board.getSaver().add(siteUser);
         this.boardRepository.save(board);
     }
 
@@ -119,6 +124,9 @@ public class BoardService {
     }
     public List<Board> getBoardsLikedByUser(SiteUser user) {
         return boardRepository.findByVoter(user);
+    }
+    public List<Board> getPostByUser(SiteUser user) {
+        return boardRepository.findBySaver(user);
     }
     public void removeUserFromBoards(SiteUser siteUser) {
         // 사용자가 투표한 모든 게시글을 가져옴

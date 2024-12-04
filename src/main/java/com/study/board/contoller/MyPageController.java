@@ -39,7 +39,7 @@ public class MyPageController {
     }
 
     @GetMapping("/myheart")
-    public String myhehart(Model model, Principal principal) {
+    public String myheart(Model model, Principal principal) {
         String username = principal.getName();
         SiteUser user = userService.getUserByUsername(username);
         List<Board> likedBoards =boardService.getBoardsLikedByUser(user);
@@ -50,5 +50,18 @@ public class MyPageController {
         model.addAttribute("likedBoards", likedBoards);
         model.addAttribute("heartCount", heartCount);
         return "myheart";
+    }
+    @GetMapping("/mypost")
+    public String mypost(Model model, Principal principal) {
+        String username = principal.getName();
+        SiteUser user = userService.getUserByUsername(username);
+        List<Board> postBoards =boardService.getPostByUser(user);
+        if (postBoards == null) {
+            postBoards = new ArrayList<>();
+        }
+        int postCount = postBoards.size();
+        model.addAttribute("postBoards", postBoards);
+        model.addAttribute("postCount", postCount);
+        return "mypost";
     }
 }
