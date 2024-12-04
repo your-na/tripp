@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Page</title>
+    <link rel="stylesheet" href="/css/ask.css">
+</head>
+<body>
+<div th:insert="~{header :: header}"/>
+<ul>
+    <th:block th:each="question : ${questions}">
+        <li th:text="${question.title}"></li>
+        <div class="comment-list">
+            <div class="comment-header" th:each="answer : ${question.answerList}" >
+                <div class="comment-details">
+                    <div class="comment-author" th:if="${answer.author != null}"/>
+                    <div class="comment-text">
+                        <p  th:text="${answer.content}">이것은 댓글입니다. 댓글의 내용이 여기에 표시됩니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </th:block>
+</ul>
+</body>
+</html>

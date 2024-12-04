@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원 관리</title>
+  <link rel="stylesheet" href="/css/support_manage.css">
+</head>
+<body>
+<div class="layout">
+  <!-- Sidebar Menu -->
+  <div th:insert="~{sidebar}"></div> <!-- 사이드바 포함 -->
+
+  <!-- Main Content -->
+  <div class="main-container">
+    <!-- User Management Section -->
+    <section class="user-management">
+      <h1>받은 문의 내역</h1>
+      <br><hr><br>
+      <table>
+        <thead>
+        <tr>
+          <th>아이디</th>
+          <th>닉네임</th>
+          <th>문의제목</th>
+          <th>작성일자</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="question : ${questions}">
+          <td th:text="${question.author.username}"></td>
+          <td th:text="${question.author.nickname}"></td>
+          <td>
+            <a th:href="@{/question/view(id=${question.id})}" th:text="${question.title}"></a>
+          </td>
+          <td th:text="${question.date}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+</div>
+</body>
+</html>

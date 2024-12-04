@@ -100,7 +100,7 @@ public class BoardController {
         model.addAttribute("board", boardService.boardView(id));
         List<BoardImage> images = boardImageRepository.findByBoardId(id);
         model.addAttribute("images", images);
-        return "boardView"; // 뷰를 담당하는 템플릿 파일 이름 리턴에 써주면 된다..
+        return "boardview"; // 뷰를 담당하는 템플릿 파일 이름 리턴에 써주면 된다..
     }
     //게시글 삭제
     @GetMapping("/board/delete")

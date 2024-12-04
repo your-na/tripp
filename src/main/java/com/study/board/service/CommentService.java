@@ -17,7 +17,6 @@ public class CommentService {
     public void create(Board board, String content, SiteUser author) {
         Comment comment = new Comment();
         comment.setContent(content);
-        comment.setContent(content);
         comment.setCreateDate(LocalDateTime.now());
         comment.setBoard(board);
         comment.setAuthor(author);

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>게시글 상세 페이지</title>
+  <link rel="stylesheet" href="/css/question_view.css"> <!-- 통합된 CSS 파일 링크 -->
+</head>
+<body>
+<!-- header -->
+<div th:insert="~{sidebar}"></div>
+
+<main>
+  <div class="post-container">
+    <div class="post-header">
+      <h1 class="post-title" th:text="${question.title}">문의 제목</h1>
+    </div>
+    <div class="post-info">
+      <span th:if="${question.author != null}" th:text="${question.author.username}"></span> |
+      <span th:text="${#dates.format(question.date, 'yyyy-MM-dd')}">2024-01-01</span>
+    </div>
+
+    <div class="post-content">
+      <pre th:utext="${question.content}"></pre>
+    </div>
+  </div>
+  <div class="comment-list">
+    <div class="comment-header" th:each="answer : ${question.answerList}">
+      <div class="comment-details">
+        <div class="comment-author">
+          <span th:text="${answer.author.username}">작성자 이름</span>
+        </div>
+        <div class="comment-text">
+          <p th:text="${answer.content}">이것은 댓글입니다. 댓글의 내용이 여기에 표시됩니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <form class="comment-form" th:action="@{|/answer/create/${question.id}|}" method="POST">
+    <textarea name="content" placeholder="댓글을 작성하세요..." rows="4"></textarea>
+    <button type="submit" >댓글 작성</button>
+  </form>
+</main>
+</body>
+</html>
